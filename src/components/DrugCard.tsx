@@ -29,6 +29,9 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
   }, [dose, weight, drug]);
 
   const toggleExpand = () => setExpanded(!expanded);
+  
+  const numDose = parseFloat(dose);
+  const isHighDose = !isNaN(numDose) && drug.default_dose.max && numDose > drug.default_dose.max;
 
   const getTypeColor = (type: string) => {
     switch (type) {
@@ -54,10 +57,20 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
         className="p-4 flex items-center justify-between cursor-pointer active:bg-slate-800/50"
       >
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-1 flex-wrap">
             <span className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded border ${getTypeColor(drug.type)}`}>
               {drug.type}
             </span>
+            {drug.warning && (
+               <span className="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded border text-red-400 border-red-400/20 bg-red-400/10 flex items-center gap-1">
+                 <span className="text-[8px]">⚠️</span> {drug.warning}
+               </span>
+            )}
+            {!expanded && isHighDose && (
+               <span className="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded border text-orange-400 border-orange-400/20 bg-orange-400/10">
+                 ALERTA
+               </span>
+            )}
           </div>
           <h3 className="font-bold text-slate-100">{drug.name}</h3>
           
@@ -112,7 +125,7 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
              </div>
           </div>
 
-          <div className="flex gap-4 items-end">
+          <div className="flex flex-col gap-2">
             <div className="flex-1">
               <Input
                 label="Dose Prescrita"
@@ -120,11 +133,17 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
                 inputMode="decimal"
                 value={dose}
                 onChange={(e) => setDose(e.target.value)}
-                suffix={drug.default_dose.unit === 'mcg/kg/min' ? 'mcg/kg/min' : 
-                        drug.default_dose.unit === 'mcg/kg/h' ? 'mcg/kg/h' : 'mcg/min'}
+                suffix={drug.default_dose.unit}
                 step={0.01}
+                className={isHighDose ? 'border-orange-500/50 bg-orange-950/10 text-orange-200' : ''}
               />
             </div>
+            {isHighDose && (
+               <div className="text-[10px] font-bold text-orange-400 bg-orange-400/10 border border-orange-400/20 px-3 py-1.5 rounded-lg flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
+                 <span>⚠️</span>
+                 Dose acima da referência ({drug.default_dose.max} {drug.default_dose.unit})
+               </div>
+            )}
           </div>
 
           {/* Result Block */}

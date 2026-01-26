@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import drugsData from './data/drugs.json';
+// @ts-ignore
+import drugsData from './data/drugs.js';
 import { Drug } from './types';
 import { DrugCard } from './components/DrugCard';
 
@@ -19,6 +20,7 @@ function App() {
   const [weight, setWeight] = useState<string>('70'); // Default 70kg
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [syringeSize, setSyringeSize] = useState<number>(20); // Default 20ml
 
   const numWeight = parseFloat(weight) || 0;
 
@@ -26,8 +28,9 @@ function App() {
     const matchesSearch = d.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           d.type.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || d.type === selectedCategory;
+    const matchesSyringe = d.standard_dilution.syringe_ml === syringeSize;
     
-    return matchesSearch && matchesCategory;
+    return matchesSearch && matchesCategory && matchesSyringe;
   });
 
   return (
@@ -42,7 +45,7 @@ function App() {
               <span className="text-cyan-400">SAMU</span> 192 Infusões
             </h1>
             <div className="text-xs font-mono text-slate-500 bg-slate-900 px-2 py-1 rounded">
-              v1.0
+              v1.3
             </div>
           </header>
 
@@ -74,6 +77,26 @@ function App() {
                />
                <span className="absolute right-3 top-3.5 text-xs font-medium text-slate-500 pointer-events-none">kg</span>
             </div>
+          </div>
+
+          {/* Toggle Syringe Size */}
+          <div className="bg-slate-900 p-1 rounded-lg flex relative">
+            <button
+              onClick={() => setSyringeSize(20)}
+              className={`flex-1 py-1.5 text-xs font-bold uppercase rounded-md transition-all ${
+                syringeSize === 20 ? 'bg-cyan-500 text-white shadow-sm' : 'text-slate-500 hover:text-slate-300'
+              }`}
+            >
+              Seringa 20ml
+            </button>
+            <button
+              onClick={() => setSyringeSize(50)}
+              className={`flex-1 py-1.5 text-xs font-bold uppercase rounded-md transition-all ${
+                syringeSize === 50 ? 'bg-cyan-500 text-white shadow-sm' : 'text-slate-500 hover:text-slate-300'
+              }`}
+            >
+              Seringa 50ml
+            </button>
           </div>
 
           {/* Category Pills */}

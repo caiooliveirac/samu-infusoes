@@ -24,4 +24,5 @@ export interface Drug {
   presentation: DrugPresentation;
   standard_dilution: StandardDilution;
   default_dose: DefaultDose;
+  warning?: string;
 }

@@ -3,159 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAMU Infusões (Standalone)</title>
+    <title>SAMU 192 (Auditado - Standalone v2)</title>
     <style>
         :root {
-            --slate-950: #020617;
-            --slate-900: #0f172a;
-            --slate-800: #1e293b;
-            --slate-700: #334155;
-            --slate-600: #475569;
-            --slate-500: #64748b;
-            --slate-400: #94a3b8;
-            --slate-300: #cbd5e1;
-            --slate-100: #f1f5f9;
-            --slate-50: #f8fafc;
+            /* INSTITUTIONAL THEME */
+            --bg-body: #f8fafc; /* Slate 50 */
+            --bg-card: #ffffff;
+            --text-main: #0f172a; /* Slate 900 */
+            --text-muted: #64748b; /* Slate 500 */
             
-            --cyan-950: #083344;
-            --cyan-500: #06b6d4;
-            --cyan-400: #22d3ee;
-            --cyan-200: #a5f3fc;
-
-            --rose-400: #fb7185;
-            --amber-400: #fbbf24;
-            --purple-400: #c084fc;
-            --emerald-400: #34d399;
-            --blue-400: #60a5fa;
-            --gray-400: #9ca3af;
+            --samu-red: #dc2626; /* Red 600 */
+            --samu-red-dark: #b91c1c; /* Red 700 */
+            --samu-orange: #ea580c; /* Orange 600 */
+            --samu-orange-light: #fff7ed; /* Orange 50 */
+            
+            --border-color: #e2e8f0; /* Slate 200 */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            
+            /* High Dose Alert Colors */
+            --alert-bg: #fff7ed; /* Orange 50 */
+            --alert-text: #c2410c; /* Orange 700 */
+            --alert-border: #fed7aa; /* Orange 200 */
         }
 
         * { box-sizing: border-box; }
         body {
             margin: 0;
-            font-family: ui-sans-serif, system-ui, sans-serif;
-            background-color: var(--slate-950);
-            color: var(--slate-50);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             -webkit-font-smoothing: antialiased;
         }
 
         .container {
             max-width: 480px;
             margin: 0 auto;
-            padding: 1rem;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             padding-bottom: 5rem;
         }
 
+        /* HEADER */
         header {
-            margin-bottom: 1.5rem;
+            background-color: var(--samu-red);
+            color: white;
+            padding: 1.5rem 1rem;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        h1 { font-size: 1.25rem; font-weight: 700; margin: 0; }
-        .text-cyan { color: var(--cyan-400); }
-        .version {
-            font-family: monospace;
-            font-size: 0.75rem;
-            color: var(--slate-500);
-            background: var(--slate-900);
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-        }
-
-        /* Inputs */
-        .input-group {
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 1rem;
             margin-bottom: 1rem;
         }
+        
+        h1 { font-size: 1.5rem; font-weight: 800; margin: 0; letter-spacing: -0.025em; text-transform: uppercase; display: flex; align-items: center; gap: 0.5rem; }
+        .subtitle { font-size: 0.75rem; opacity: 0.9; font-weight: 400; border-left: 1px solid rgba(255,255,255,0.3); padding-left: 0.5rem; }
 
-        .input-wrapper { position: relative; }
-
-        input {
-            width: 100%;
-            background: var(--slate-900);
-            border: 1px solid var(--slate-800);
-            color: var(--slate-100);
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
-            outline: none;
-            transition: border-color 0.2s;
+        /* INPUTS GLOBAL */
+        .controls {
+            display: flex;
+            gap: 0.75rem;
         }
 
-        input:focus { border-color: var(--cyan-500); }
-        input[type="number"] { text-align: center; font-family: monospace; font-weight: bold; color: var(--cyan-400); }
+        .input-wrapper { position: relative; flex: 1; }
+        
+        input {
+            width: 100%;
+            height: 3rem;
+            padding: 0 1rem;
+            border-radius: 0.5rem;
+            border: 2px solid transparent;
+            font-size: 1rem;
+            box-shadow: var(--shadow-sm);
+            outline: none;
+            color: var(--text-main);
+        }
+        input:focus { border-color: var(--samu-orange); }
 
+        .search-input { padding-left: 2.5rem; }
         .search-icon {
             position: absolute;
             left: 0.75rem;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--slate-500);
+            color: var(--text-muted);
             pointer-events: none;
         }
-        .search-input { padding-left: 2.5rem; }
 
-        .suffix {
+        .weight-wrapper { width: 5.5rem; flex: none; }
+        .weight-input { text-align: center; font-weight: 700; padding: 0 1.5rem 0 0.5rem; }
+        .weight-suffix {
             position: absolute;
-            right: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 0.75rem;
-            color: var(--slate-500);
+            right: 0.5rem;
+            top: 0.25rem;
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: var(--text-muted);
             pointer-events: none;
+            text-transform: uppercase;
         }
 
-        /* Categories */
-        .categories {
+        /* TOGGLE */
+        .toggle-container {
+            margin-top: 0.75rem;
+            background: rgba(0,0,0,0.1);
+            padding: 0.25rem;
+            border-radius: 0.5rem;
             display: flex;
-            gap: 0.5rem;
-            overflow-x: auto;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-            /* Hide scrollbar */
-            scrollbar-width: none; 
-            -ms-overflow-style: none;
         }
-        .categories::-webkit-scrollbar { display: none; }
-
-        .cat-btn {
-            background: var(--slate-900);
-            color: var(--slate-400);
-            border: 1px solid var(--slate-800);
-            padding: 0.375rem 0.75rem;
-            border-radius: 9999px;
+        .toggle-btn {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: rgba(255,255,255,0.7);
+            padding: 0.5rem;
             font-size: 0.75rem;
-            font-weight: 500;
-            white-space: nowrap;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 0.25rem;
             cursor: pointer;
             transition: all 0.2s;
         }
-        .cat-btn.active {
-            background: var(--cyan-500);
-            color: white;
-            border-color: var(--cyan-500);
+        .toggle-btn.active {
+            background: white;
+            color: var(--samu-red);
+            box-shadow: var(--shadow-sm);
         }
 
-        /* Drug List */
-        .drug-list { display: flex; flex-direction: column; gap: 0.75rem; }
+        /* MAIN LIST */
+        .drug-list { padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
 
         .card {
-            background: var(--slate-900);
-            border: 1px solid var(--slate-800);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
             border-radius: 0.75rem;
             overflow: hidden;
             transition: all 0.2s;
+            box-shadow: var(--shadow-sm);
         }
         .card.expanded {
-            border-color: var(--cyan-500);
-            box-shadow: 0 0 0 1px var(--cyan-500), 0 10px 15px -3px rgba(8, 51, 68, 0.2);
+            border-color: var(--samu-orange);
+            box-shadow: var(--shadow-md);
+            outline: 2px solid rgba(234, 88, 12, 0.1);
         }
 
         .card-header {
@@ -165,292 +161,209 @@
             justify-content: space-between;
             align-items: center;
         }
-        .card-header:hover { background: rgba(30, 41, 59, 0.5); }
-
-        .card-content { display: none; padding: 1rem; background: rgba(15, 23, 42, 0.5); border-top: 1px solid var(--slate-800); }
-        .card.expanded .card-content { display: block; animation: slideDown 0.2s ease-out; }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .card-header:active { background-color: var(--bg-body); }
 
         .badge {
             display: inline-block;
-            font-size: 0.625rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
-            font-weight: bold;
-            padding: 0.125rem 0.375rem;
+            font-weight: 700;
+            padding: 0.125rem 0.5rem;
             border-radius: 0.25rem;
-            border: 1px solid;
             margin-bottom: 0.25rem;
+            letter-spacing: 0.025em;
         }
+
+        /* Theme Colors for badges */
+        .badge.vasopressor { background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa; }
+        .badge.inotropos { background: #fef9c3; color: #a16207; border: 1px solid #fde047; }
+        .badge.sedativo { background: #f3e8ff; color: #7e22ce; border: 1px solid #d8b4fe; }
+        .badge.vasodilatador { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+        .badge.antiarritmico { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
+        .badge.outros { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+
+        .drug-name { font-weight: 700; font-size: 1.125rem; color: var(--text-main); line-height: 1.2; }
         
-        .type-vasopressor { color: var(--rose-400); border-color: rgba(251, 113, 133, 0.2); background: rgba(251, 113, 133, 0.1); }
-        .type-inotropos { color: var(--amber-400); border-color: rgba(251, 191, 36, 0.2); background: rgba(251, 191, 36, 0.1); }
-        .type-sedativo { color: var(--purple-400); border-color: rgba(192, 132, 252, 0.2); background: rgba(192, 132, 252, 0.1); }
-        .type-vasodilatador { color: var(--emerald-400); border-color: rgba(52, 211, 153, 0.2); background: rgba(52, 211, 153, 0.1); }
-        .type-antiarritmico { color: var(--blue-400); border-color: rgba(96, 165, 250, 0.2); background: rgba(96, 165, 250, 0.1); }
-        .type-outros { color: var(--gray-400); border-color: rgba(156, 163, 175, 0.2); background: rgba(156, 163, 175, 0.1); }
-
-        .drug-name { font-weight: bold; color: var(--slate-100); }
-
-        .preview-rate {
-            margin-top: 0.5rem;
-            display: flex;
-            align-items: baseline;
-            gap: 0.25rem;
+        .warning-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--samu-red);
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            padding: 0.125rem 0.375rem;
+            border-radius: 999px;
+            margin-left: 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
         }
-        .preview-val { font-family: monospace; font-size: 1.5rem; font-weight: bold; color: var(--cyan-400); line-height: 1; }
-        .preview-unit { font-size: 0.75rem; color: rgba(34, 211, 238, 0.7); font-weight: 500; }
 
+        .card-content { display: none; background: #f8fafc; border-top: 1px solid var(--border-color); }
+        .card.expanded .card-content { display: block; animation: slideDown 0.2s ease-out; }
+
+        /* INFO GRID */
         .info-grid {
-            background: rgba(2, 6, 23, 0.5);
-            border: 1px solid rgba(30, 41, 59, 0.5);
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-            margin: 1rem 0;
+            padding: 1rem;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
+            gap: 0.75rem;
             font-size: 0.75rem;
-            color: var(--slate-400);
         }
-        .info-label { display: block; color: var(--slate-500); margin-bottom: 0.125rem; }
-        .info-val { font-family: monospace; color: var(--slate-300); }
-        .info-full { grid-column: 1 / -1; padding-top: 0.5rem; border-top: 1px solid var(--slate-800); margin-top: 0.25rem; }
+        .info-box {
+            background: white;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+        }
+        .info-label { display: block; color: var(--text-muted); text-transform: uppercase; font-size: 0.65rem; font-weight: 600; margin-bottom: 0.125rem; }
+        .info-val { font-family: monospace; font-size: 0.875rem; font-weight: 600; color: var(--text-main); }
+        .info-val.large { font-size: 1rem; font-weight: 700; }
 
-        .dose-input-wrapper { margin-bottom: 1rem; }
-        .dose-label { display: block; font-size: 0.75rem; font-weight: 500; color: var(--slate-400); text-transform: uppercase; margin-bottom: 0.375rem; }
+        /* CALCULATION AREA */
+        .calc-area { padding: 0 1rem 1.5rem 1rem; }
+        
+        .dose-input-group { background: white; padding: 1rem; border: 1px solid var(--border-color); border-radius: 0.5rem; box-shadow: var(--shadow-sm); }
+        .dose-input { 
+            border: 1px solid #cbd5e1; 
+            height: 2.5rem; 
+            font-family: monospace; 
+            font-weight: bold; 
+            font-size: 1.125rem;
+            color: var(--text-main);
+            text-align: center;
+        }
+        .dose-input:focus { border-color: var(--samu-orange); }
+        /* Soft Alert High Dose Style */
+        .dose-input.high-dose { border-color: #fdba74; background-color: #fff7ed; color: #c2410c; }
+        
+        .high-dose-badge {
+            display: block;
+            margin-top: 0.5rem;
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #c2410c;
+            background: #fff7ed;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+        }
 
         .result-box {
-            background: rgba(8, 51, 68, 0.2);
-            border: 1px solid rgba(6, 182, 212, 0.3);
-            border-radius: 0.75rem;
+            margin-top: 1rem;
+            background: var(--text-main);
+            color: white;
             padding: 1rem;
+            border-radius: 0.75rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .result-label { font-size: 0.875rem; font-weight: 500; color: rgba(165, 243, 252, 0.7); text-transform: uppercase; }
-        .result-val { font-family: monospace; font-size: 2rem; font-weight: bold; color: var(--cyan-400); }
-        .result-unit { font-size: 1rem; color: rgba(6, 182, 212, 0.7); margin-left: 0.25rem; }
+        
+        .result-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; opacity: 0.8; letter-spacing: 0.05em; }
+        .result-val { font-family: monospace; font-size: 2.25rem; font-weight: 700; line-height: 1; }
+        .result-unit { font-size: 1rem; opacity: 0.8; margin-left: 0.25rem; font-weight: 500; }
 
-        footer { text-align: center; margin-top: 2rem; font-size: 0.625rem; color: var(--slate-600); line-height: 1.5; }
+        footer { text-align: center; font-size: 0.65rem; color: var(--text-muted); margin-top: 2rem; padding: 0 2rem; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.5; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .loading-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        
+        .error-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--samu-red);
+            font-size: 0.85rem;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 0.5rem;
+            margin: 1rem;
+        }
     </style>
 </head>
 <body>
 
+<header>
+    <div class="container container-header" style="margin:0; min-height:initial; padding:0;">
+        <div class="header-content">
+            <h1>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 12a5 5 0 0 1 5-5v0a5 5 0 0 1 5 5v6H7v-6Z"/><path d="M5 20a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2H5v-2Z"/><path d="M12 7v5"/><path d="M12 2v2"/></svg>
+                SAMU 192 <span class="subtitle">Protocolos</span>
+            </h1>
+        </div>
+
+        <div class="controls">
+            <div class="input-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-input" placeholder="Buscar..." autocomplete="off">
+            </div>
+            <div class="input-wrapper weight-wrapper">
+                <input type="number" id="weightInput" class="weight-input" placeholder="KG" value="70">
+                <span class="weight-suffix">kg</span>
+            </div>
+        </div>
+
+        <div class="toggle-container">
+            <button class="toggle-btn active" id="btn20ml" onclick="setSyringe(20)">Seringa 20ml</button>
+            <button class="toggle-btn" id="btn50ml" onclick="setSyringe(50)">Seringa 50ml</button>
+        </div>
+    </div>
+</header>
+
 <div class="container">
-    <header>
-        <h1><span class="text-cyan">SAMU</span> 192 Infusões</h1>
-        <div class="version">v1.0 (Standalone)</div>
-    </header>
-
-    <div class="input-group">
-        <div class="input-wrapper">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" class="search-input" placeholder="Busca..." autocomplete="off">
-        </div>
-        <div class="input-wrapper">
-            <input type="number" id="weightInput" placeholder="KG" value="70">
-            <span class="suffix">kg</span>
-        </div>
-    </div>
-
-    <div class="categories" id="categoriesContainer">
-        <!-- JS fills this -->
-    </div>
-
     <div class="drug-list" id="drugList">
-        <!-- JS fills this -->
+        <div class="loading-state">
+            Carregando banco de dados...
+        </div>
     </div>
 
     <footer>
-        USO EXCLUSIVO PARA PROFISSIONAIS DE SAÚDE.<br>
-        Conferir sempre as diluições e doses antes da administração.<br>
-        O desenvolvedor não se responsabiliza pelo uso indevido.
+        Uso exclusivo para profissionais de saúde.<br>
+        Conferir sempre diluições antes da administração.<br>
+        v1.3 (Base 94 Itens)
     </footer>
 </div>
 
+<script src="src/data/drugs.js"></script>
 <script>
-// --- DATASOURCE ---
-const DRUGS = [
-  {
-    "id": "adrenalina_cloridrat_1",
-    "name": "ADRENALINA, CLORIDRATO",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 1.0, "mg_ml": 1.0 },
-    "standard_dilution": { "syringe_ml": 20.0, "num_ampoules": 1.0, "drug_volume_ml": 1.0, "diluent_volume_ml": 19.0, "final_concentration_mcg_ml": 50.0 },
-    "default_dose": { "min": 0.0476, "max": 0.2024, "unit": "mcg/kg/min" }
-  },
-  {
-    "id": "amiodarona_ataque_1",
-    "name": "AMIODARONA (ataque)",
-    "type": "antiarritmico",
-    "presentation": { "ampoule_ml": 3.0, "mg_ml": 50.0 },
-    "standard_dilution": { "syringe_ml": 20.0, "num_ampoules": 1.0, "drug_volume_ml": 3.0, "diluent_volume_ml": 17.0, "final_concentration_mcg_ml": 7500.0 },
-    "default_dose": { "min": null, "max": null, "unit": "mcg/kg/h" }
-  },
-  {
-    "id": "amiodarona_manutencao_1",
-    "name": "AMIODARONA (manutenção - 6 horas)",
-    "type": "antiarritmico",
-    "presentation": { "ampoule_ml": 3.0, "mg_ml": 50.0 },
-    "standard_dilution": { "syringe_ml": 50.0, "num_ampoules": 6.0, "drug_volume_ml": 18.0, "diluent_volume_ml": 32.0, "final_concentration_mcg_ml": 9000.0 },
-    "default_dose": { "min": 7.1429, "max": 14.2857, "unit": "mcg/kg/min" }
-  },
-  {
-    "id": "atropina_sulfato_1",
-    "name": "ATROPINA, SULFATO",
-    "type": "outros",
-    "presentation": { "ampoule_ml": 1.0, "mg_ml": 0.25 },
-    "standard_dilution": { "syringe_ml": 20.0, "num_ampoules": 20.0, "drug_volume_ml": 20.0, "diluent_volume_ml": 0.0, "final_concentration_mcg_ml": 250.0 },
-    "default_dose": { "min": 0.04, "max": 0.1, "unit": "mcg/kg/min" }
-  },
-  {
-    "id": "dobutamina_cloridrat_1",
-    "name": "DOBUTAMINA, CLORIDRATO",
-    "type": "inotropos",
-    "presentation": { "ampoule_ml": 20.0, "mg_ml": 12.5 },
-    "standard_dilution": { "syringe_ml": 50.0, "num_ampoules": 1.0, "drug_volume_ml": 20.0, "diluent_volume_ml": 30.0, "final_concentration_mcg_ml": 5000.0 },
-    "default_dose": { "min": 2.0, "max": 20.0, "unit": "mcg/kg/min" }
-  },
-  {
-    "id": "dobutamina_cloridrat_2",
-    "name": "DOBUTAMINA, CLORIDRATO (Equiv Concentrada)",
-    "type": "inotropos",
-    "presentation": { "ampoule_ml": 20.0, "mg_ml": 12.5 },
-    "standard_dilution": { "syringe_ml": 50.0, "num_ampoules": 2.0, "drug_volume_ml": 40.0, "diluent_volume_ml": 10.0, "final_concentration_mcg_ml": 10000.0 },
-    "default_dose": { "min": 2.0, "max": 20.0, "unit": "mcg/kg/min" }
-  },
-  {
-    "id": "dobutamina_cloridrat_3",
-    "name": "DOBUTAMINA, CLORIDRATO (Equiv 4X Concentrada)",
-    "type": "inotropos",
-    "presentation": { "ampoule_ml": 20.0, "mg_ml": 12.5 },
-    "standard_dilution": { "syringe_ml": 50.0, "num_ampoules": 4.0, "drug_volume_ml": 80.0, "diluent_volume_ml": 0.0, "final_concentration_mcg_ml": 20000.0 },
-    "default_dose": { "min": 2.0, "max": 20.0, "unit": "mcg/kg/min" }
-  },
-  {
-    "id": "dopamina_cloridrato_1",
-    "name": "DOPAMINA, CLORIDRATO",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 10.0, "mg_ml": 5.0 },
-    "standard_dilution": { "syringe_ml": 50.0, "num_ampoules": 4.0, "drug_volume_ml": 40.0, "diluent_volume_ml": 10.0, "final_concentration_mcg_ml": 4000.0 },
-    "default_dose": { "min": 2.0, "max": 20.0, "unit": "mcg/kg/min" }
-  },
-  {
-    "id": "fentanila_citrato_1",
-    "name": "FENTANILA, CITRATO",
-    "type": "sedativo",
-    "presentation": { "ampoule_ml": 10.0, "mg_ml": 0.05 },
-    "standard_dilution": { "syringe_ml": 50.0, "num_ampoules": 1.0, "drug_volume_ml": 10.0, "diluent_volume_ml": 40.0, "final_concentration_mcg_ml": 10.0 },
-    "default_dose": { "min": 0.5, "max": 2.0, "unit": "mcg/kg/h" }
-  },
-  {
-    "id": "fentanila_citrato_2",
-    "name": "FENTANILA, CITRATO (Concentrada)",
-    "type": "sedativo",
-    "presentation": { "ampoule_ml": 10.0, "mg_ml": 0.05 },
-    "standard_dilution": { "syringe_ml": 50.0, "num_ampoules": 5.0, "drug_volume_ml": 50.0, "diluent_volume_ml": 0.0, "final_concentration_mcg_ml": 50.0 },
-    "default_dose": { "min": 0.5, "max": 2.0, "unit": "mcg/kg/h" }
-  },
-  {
-    "id": "midazolam_sedacao_1",
-    "name": "MIDAZOLAM (Sedação)",
-    "type": "sedativo",
-    "presentation": { "ampoule_ml": 10.0, "mg_ml": 5.0 },
-    "standard_dilution": { "syringe_ml": 50.0, "num_ampoules": 1.0, "drug_volume_ml": 10.0, "diluent_volume_ml": 40.0, "final_concentration_mcg_ml": 1000.0 },
-    "default_dose": { "min": 20.0, "max": 100.0, "unit": "mcg/kg/h" }
-  },
-  {
-    "id": "midazolam_sedacao_2",
-    "name": "MIDAZOLAM (Sedação Concentrada)",
-    "type": "sedativo",
-    "presentation": { "ampoule_ml": 10.0, "mg_ml": 5.0 },
-    "standard_dilution": { "syringe_ml": 50.0, "num_ampoules": 5.0, "drug_volume_ml": 50.0, "diluent_volume_ml": 0.0, "final_concentration_mcg_ml": 5000.0 },
-    "default_dose": { "min": 20.0, "max": 100.0, "unit": "mcg/kg/h" }
-  },
-  {
-    "id": "noradrenalina_hemitartarato_1",
-    "name": "NORADRENALINA (Hemitartarato)",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 4.0, "mg_ml": 1.0 },
-    "standard_dilution": { "syringe_ml": 50.0, "num_ampoules": 4.0, "drug_volume_ml": 16.0, "diluent_volume_ml": 34.0, "final_concentration_mcg_ml": 320.0 },
-    "default_dose": { "min": 0.05, "max": 2.0, "unit": "mcg/kg/min" }
-  },
-  {
-    "id": "noradrenalina_hemitartarato_neo_1",
-    "name": "NORADRENALINA (Neonatal/Ped - 16mcg/ml)",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 4.0, "mg_ml": 1.0 },
-    "standard_dilution": { "syringe_ml": 50.0, "num_ampoules": 1.0, "drug_volume_ml": 0.8, "diluent_volume_ml": 49.2, "final_concentration_mcg_ml": 16.0 },
-    "default_dose": { "min": 0.05, "max": 2.0, "unit": "mcg/kg/min" }
-  },
-  {
-    "id": "nitroglicerina_sca_1",
-    "name": "NITROGLICERINA (SCA)",
-    "type": "vasodilatador",
-    "presentation": { "ampoule_ml": 10.0, "mg_ml": 5.0 },
-    "standard_dilution": { "syringe_ml": 50.0, "num_ampoules": 2.0, "drug_volume_ml": 20.0, "diluent_volume_ml": 30.0, "final_concentration_mcg_ml": 2000.0 },
-    "default_dose": { "min": 5.0, "max": 200.0, "unit": "mcg/min" }
-  },
-  {
-    "id": "nitroprussiato_sodio_1",
-    "name": "NITROPRUSSIATO DE SÓDIO",
-    "type": "vasodilatador",
-    "presentation": { "ampoule_ml": 2.0, "mg_ml": 25.0 },
-    "standard_dilution": { "syringe_ml": 50.0, "num_ampoules": 1.0, "drug_volume_ml": 2.0, "diluent_volume_ml": 48.0, "final_concentration_mcg_ml": 1000.0 },
-    "default_dose": { "min": 0.25, "max": 10.0, "unit": "mcg/kg/min" }
-  },
-  {
-    "id": "propofol_1_1",
-    "name": "PROPOFOL 1%",
-    "type": "sedativo",
-    "presentation": { "ampoule_ml": 20.0, "mg_ml": 10.0 },
-    "standard_dilution": { "syringe_ml": 50.0, "num_ampoules": 2.0, "drug_volume_ml": 40.0, "diluent_volume_ml": 0.0, "final_concentration_mcg_ml": 10000.0 },
-    "default_dose": { "min": 5.0, "max": 50.0, "unit": "mcg/kg/min" }
-  },
-  {
-    "id": "cetamina_cloridrato_1",
-    "name": "CETAMINA CLORIDRATO (Manutenção)",
-    "type": "sedativo",
-    "presentation": { "ampoule_ml": 10.0, "mg_ml": 50.0 },
-    "standard_dilution": { "syringe_ml": 50.0, "num_ampoules": 1.0, "drug_volume_ml": 10.0, "diluent_volume_ml": 40.0, "final_concentration_mcg_ml": 10000.0 },
-    "default_dose": { "min": 5.0, "max": 20.0, "unit": "mcg/kg/min" }
-  }
-];
+// --- DATA LOAD ---
+let DRUGS = (typeof DRUGS_DATA !== 'undefined') ? DRUGS_DATA : [];
 
-const CATEGORIES = [
-    { id: 'all', label: 'Todos' },
-    { id: 'vasopressor', label: 'Vasopressores' },
-    { id: 'sedativo', label: 'Sedativos' },
-    { id: 'inotropos', label: 'Inotrópicos' },
-    { id: 'vasodilatador', label: 'Vasodilatadores' },
-    { id: 'antiarritmico', label: 'Antiarritmicos' },
-    { id: 'outros', label: 'Outros' }
-];
+if (typeof DRUGS_DATA === 'undefined') {
+     console.error('DRUGS_DATA not found. Check src/data/drugs.js');
+     // DOM might not be fully ready if script is in head? No, it's at end of body.
+     setTimeout(() => {
+        const list = document.getElementById('drugList');
+        if(list) list.innerHTML = '<div class="error-state">Erro: Base de dados (src/data/drugs.js) não carregou.</div>';
+     }, 100);
+}
 
-// --- STATE MANAGMENT ---
+// --- STATE ---
 let state = {
     weight: 70,
     search: '',
-    category: 'all',
     expandedCards: new Set(),
-    doses: {} // Map drugId -> value
+    doses: {},
+    syringeSize: 20
 };
 
-// --- DOM ELEMENTS ---
+// --- DOM ---
 const searchInput = document.getElementById('searchInput');
 const weightInput = document.getElementById('weightInput');
-const categoriesContainer = document.getElementById('categoriesContainer');
 const drugList = document.getElementById('drugList');
 
-// --- EVENT LISTENERS ---
+// --- SETUP ---
 weightInput.addEventListener('input', (e) => {
     state.weight = parseFloat(e.target.value) || 0;
-    renderRateUpdates(); // Opitmization: don't re-render full list, just rates
+    renderAllCalculations(); 
 });
 
 searchInput.addEventListener('input', (e) => {
@@ -458,35 +371,31 @@ searchInput.addEventListener('input', (e) => {
     renderDrugList();
 });
 
-// --- RENDER CATEGORIES ---
-function renderCategories() {
-    categoriesContainer.innerHTML = '';
-    CATEGORIES.forEach(cat => {
-        const btn = document.createElement('button');
-        btn.className = `cat-btn ${state.category === cat.id ? 'active' : ''}`;
-        btn.textContent = cat.label;
-        btn.onclick = () => {
-            state.category = cat.id;
-            renderCategories(); // Re-render self to update active class
-            renderDrugList();
-        };
-        categoriesContainer.appendChild(btn);
-    });
+function setSyringe(size) {
+    state.syringeSize = size;
+    document.getElementById('btn20ml').classList.toggle('active', size === 20);
+    document.getElementById('btn50ml').classList.toggle('active', size === 50);
+    renderDrugList();
 }
 
-// --- UTILS ---
+// --- LOGIC ---
 function formatNumber(num) {
     if (num === 0) return '0';
+    if (!isFinite(num)) return 'Erro';
     if (num < 0.1) return num.toFixed(2);
     if (num < 10) return num.toFixed(1);
     return Math.round(num).toString();
 }
 
 function calculateRate(dose, weight, drug) {
+    if (!dose || parseFloat(dose) === 0) return 0;
+    
     const concentration = drug.standard_dilution.final_concentration_mcg_ml;
     const unit = drug.default_dose.unit;
 
     if (concentration === 0) return 0;
+    
+    // Robust calculation based on unit type
     if (unit === 'mcg/kg/min') {
         if (!weight) return 0;
         return (dose * weight * 60) / concentration;
@@ -498,104 +407,154 @@ function calculateRate(dose, weight, drug) {
     if (unit === 'mcg/min') {
         return (dose * 60) / concentration;
     }
-    if (unit === 'mcg/h') {
-        return dose / concentration;
+    // NOVOS FORMATOS (v1.3)
+    if (unit === 'g/h') {
+        // 1g = 1,000,000mcg
+        return (dose * 1000000) / concentration;
     }
+    if (unit === 'mg/dose') {
+        // Volume total (não vazão contínua) - Displayed as "mL/h" (Volume a infundir agora)
+        return (dose * 1000) / concentration;
+    }
+    if (unit === 'mg/kg') {
+        // Volume total baseado em peso
+        if (!weight) return 0;
+        return (dose * weight * 1000) / concentration;
+    }
+    
     return 0;
 }
 
-// --- RENDER DRUGS ---
+// --- RENDER ---
 function renderDrugList() {
     drugList.innerHTML = '';
     
-    const filtered = DRUGS.filter(d => {
-        const matchSearch = d.name.toLowerCase().includes(state.search.toLowerCase()) || 
-                            d.type.toLowerCase().includes(state.search.toLowerCase());
-        const matchCat = state.category === 'all' || d.type === state.category;
-        return matchSearch && matchCat;
-    });
+    if (DRUGS.length === 0) {
+        drugList.innerHTML = '<div class="loading-state">Carregando...</div>';
+        return;
+    }
+    
+    // Filter
+    const filtered = DRUGS.filter(d => 
+        d.standard_dilution.syringe_ml === state.syringeSize &&
+        (d.name.toLowerCase().includes(state.search.toLowerCase()) || 
+        d.type.toLowerCase().includes(state.search.toLowerCase()))
+    );
 
     if (filtered.length === 0) {
-        drugList.innerHTML = '<div style="text-align:center; color:var(--slate-500); padding:2rem;">Nenhuma droga encontrada.</div>';
+        drugList.innerHTML = `
+            <div style="text-align:center; padding:3rem 1rem; color:#94a3b8;">
+                <div style="font-size:2rem; margin-bottom:1rem;">💉</div>
+                <div style="font-weight:600">Nenhuma diluição para ${state.syringeSize}ml</div>
+            </div>`;
         return;
     }
 
     filtered.forEach(drug => {
         const card = document.createElement('div');
-        card.className = `card ${state.expandedCards.has(drug.id) ? 'expanded' : ''}`;
+        const isExpanded = state.expandedCards.has(drug.id);
+        card.className = `card ${isExpanded ? 'expanded' : ''}`;
         card.id = `card-${drug.id}`;
         
-        // Initialize dose defaults if needed
         if (state.doses[drug.id] === undefined) {
-             state.doses[drug.id] = drug.default_dose.min || 0;
+             state.doses[drug.id] = drug.default_dose.min !== null ? drug.default_dose.min : '';
         }
 
-        const isExpanded = state.expandedCards.has(drug.id);
         const currentDose = state.doses[drug.id];
         const rate = calculateRate(currentDose, state.weight, drug);
+        const warning = drug.warning ? `<span class="warning-tag">⚠️ ${drug.warning}</span>` : '';
+        
+        // Soft Alert Logic
+        const isHighDose = drug.default_dose.max && currentDose && currentDose > drug.default_dose.max;
+        
+        // Prep Logic (Explicit Volume)
+        const numAmps = drug.standard_dilution.num_ampoules || (drug.standard_dilution.drug_volume_ml / drug.presentation.ampoule_ml);
+        const ampText = numAmps === 1 ? 'Ampola' : 'Ampolas'; // Unused var kept for potential future use
 
         card.innerHTML = `
             <div class="card-header" onclick="toggleCard('${drug.id}')">
                 <div>
-                    <span class="badge type-${drug.type}">${drug.type}</span>
+                    <div>
+                        <span class="badge ${drug.type}">${drug.type}</span>
+                        ${warning}
+                    </div>
                     <div class="drug-name">${drug.name}</div>
+                    
                     ${!isExpanded && rate > 0 ? `
-                        <div class="preview-rate">
-                            <span class="preview-val">${formatNumber(rate)}</span>
-                            <span class="preview-unit">mL/h</span>
+                        <div style="margin-top:0.5rem; display:flex; align-items:center; gap:0.5rem; font-family:monospace; font-weight:700; color:var(--samu-orange);">
+                            <span style="font-size:1.25rem;">${formatNumber(rate)}</span>
+                            <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">mL/h</span>
+                            ${isHighDose ? '<span style="font-size:0.6rem; color: #c2410c; background: #fff7ed; padding:2px 6px; border-radius:99px;">ALERTA</span>' : ''}
                         </div>
                     ` : ''}
                 </div>
-                <div style="color: var(--slate-500)">${isExpanded ? '▲' : '▼'}</div>
+                <div style="color:var(--text-muted)">${isExpanded ? '▲' : '▼'}</div>
             </div>
+
             <div class="card-content">
                 <div class="info-grid">
-                    <div>
+                    <div class="info-box">
                         <span class="info-label">Seringa Total</span>
                         <span class="info-val">${drug.standard_dilution.syringe_ml} mL</span>
                     </div>
-                    <div>
+                    <div class="info-box">
                         <span class="info-label">Concentração</span>
-                        <span class="info-val">${drug.standard_dilution.final_concentration_mcg_ml} mcg/mL</span>
+                        <span class="info-val large">${drug.standard_dilution.final_concentration_mcg_ml}</span>
+                        <span style="font-size:0.7rem; color:var(--text-muted);">mcg/mL</span>
                     </div>
-                    <div class="info-full">
-                        <span class="info-label">Preparo</span>
-                        <span class="info-val">
-                             ${drug.standard_dilution.drug_volume_ml}mL Droga + ${drug.standard_dilution.diluent_volume_ml}mL Diluente
-                        </span>
+                </div>
+
+                <div style="margin: 0 1rem 1rem 1rem; padding: 0.75rem; background: #f0f9ff; border: 1px dashed #bae6fd; border-radius: 0.375rem; font-size: 0.8rem;">
+                    <div style="color: #0369a1; font-weight: 700; font-size: 0.65rem; text-transform: uppercase; margin-bottom: 0.5rem; border-bottom: 1px solid #e0f2fe; padding-bottom: 0.25rem;">COMO PREPARAR</div>
+                    <div style="display: flex; align-items: center; justify-content: space-around;">
+                        <div style="text-align: center;">
+                            <div style="font-weight: 800; font-size: 1.25rem; color: #0c4a6e; line-height: 1;">${drug.standard_dilution.drug_volume_ml}</div>
+                            <div style="font-size: 0.6rem; color: #0284c7; text-transform: uppercase; font-weight:700;">ml da Droga</div>
+                        </div>
+                        <div style="color: #94a3b8; font-weight: 300; font-size: 1.5rem;">+</div>
+                        <div style="text-align: center;">
+                            <div style="font-weight: 800; font-size: 1.25rem; color: #0c4a6e; line-height: 1;">${drug.standard_dilution.diluent_volume_ml}</div>
+                            <div style="font-size: 0.6rem; color: #0284c7; text-transform: uppercase; font-weight:700;">ml Diluente</div>
+                        </div>
+                        <div style="color: #94a3b8; font-weight: 300; font-size: 1.5rem;">=</div>
+                        <div style="text-align: center;">
+                            <div style="font-weight: 800; font-size: 1.25rem; color: #0c4a6e; line-height: 1;">${drug.standard_dilution.syringe_ml}</div>
+                            <div style="font-size: 0.6rem; color: #0284c7; text-transform: uppercase; font-weight:700;">ml Total</div>
+                        </div>
                     </div>
-                    ${drug.standard_dilution.num_ampoules ? `
-                        <div class="info-full">
-                             <span class="info-label">Ampolas</span>
-                             <span class="info-val">${drug.standard_dilution.num_ampoules} amp</span>
+                </div>
+
+                <div class="calc-area">
+                    <div class="dose-input-group">
+                        <label class="info-label" style="margin-bottom:0.5rem">Dose Prescrita</label>
+                        <div style="display:flex; align-items:center; gap:0.5rem;">
+                            <input type="number" 
+                                class="dose-input ${isHighDose ? 'high-dose' : ''}" 
+                                value="${currentDose}" 
+                                oninput="updateDose('${drug.id}', this.value)"
+                                step="any"
+                                placeholder="${drug.default_dose.min || 0}">
+                            <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); width:4rem;">
+                                ${drug.default_dose.unit}
+                            </span>
+                        </div>
+                        ${isHighDose ? `<div class="high-dose-badge">⚠️ Dose acima do padrão (${drug.default_dose.max})</div>` : ''}
+                    </div>
+
+                    ${(rate > 0 || String(rate) === '0' && currentDose > 0) ? `
+                        <div class="result-box">
+                            <div>
+                                <div class="result-label">Vazão em Bomba</div>
+                            </div>
+                            <div style="text-align:right">
+                                <span class="result-val">${formatNumber(rate)}</span>
+                                <span class="result-unit">mL/h</span>
+                            </div>
                         </div>
                     ` : ''}
                 </div>
-
-                <div class="dose-input-wrapper">
-                    <label class="dose-label">Dose Prescrita</label>
-                    <div class="input-wrapper">
-                        <input type="number" 
-                               value="${currentDose}" 
-                               oninput="updateDose('${drug.id}', this.value)"
-                               step="0.01"
-                        >
-                        <span class="suffix">${drug.default_dose.unit}</span>
-                    </div>
-                </div>
-
-                ${rate > 0 ? `
-                    <div class="result-box">
-                        <span class="result-label">Vazão Bomba</span>
-                        <div>
-                            <span class="result-val">${formatNumber(rate)}</span>
-                            <span class="result-unit">mL/h</span>
-                        </div>
-                    </div>
-                ` : ''}
             </div>
         `;
-
         drugList.appendChild(card);
     });
 }
@@ -607,72 +566,25 @@ window.toggleCard = (id) => {
     } else {
         state.expandedCards.add(id);
     }
-    renderDrugList(); // Re-render to show animation/expansion
+    renderDrugList(); 
 };
 
 window.updateDose = (id, value) => {
-    state.doses[id] = parseFloat(value);
-    // Only re-render if we really need to, but simpler to just re-render list or specific card
-    // For Vanilla JS simplicity, we'll re-render the whole list to keep state sync easy, 
-    // but in a larger app we would target specific elements. 
-    // Optimization: Just update the result box if it exists.
+    state.doses[id] = value; 
+    renderDrugList(); 
     
-    // Quick Hack used: Re-rendering causes input focus loss.
-    // Solution: Don't re-render full HTML. Calculate and update DOM directly.
-    
-    const drug = DRUGS.find(d => d.id === id);
-    if(!drug) return;
-
-    const rate = calculateRate(state.doses[id], state.weight, drug);
-    const card = document.getElementById(`card-${id}`);
-    
-    // Update Result Box
-    const resultBox = card.querySelector('.result-box');
-    
-    if (rate > 0) {
-        const resultHTML = `
-            <span class="result-label">Vazão Bomba</span>
-            <div>
-                <span class="result-val">${formatNumber(rate)}</span>
-                <span class="result-unit">mL/h</span>
-            </div>
-        `;
-        
-        if (resultBox) {
-            resultBox.innerHTML = resultHTML;
-        } else {
-            // Need to insert it
-            const newBox = document.createElement('div');
-            newBox.className = 'result-box';
-            newBox.innerHTML = resultHTML;
-            card.querySelector('.card-content').appendChild(newBox);
-        }
-    } else {
-        if (resultBox) resultBox.remove();
-    }
+    setTimeout(() => {
+        const input = document.querySelector(`#card-${id} input`);
+        if(input) input.focus();
+    }, 0);
 };
 
-function renderRateUpdates() {
-    // Called when weight changes
-    DRUGS.forEach(drug => {
-        const card = document.getElementById(`card-${drug.id}`);
-        if(card && state.expandedCards.has(drug.id)) {
-            // Force update calculation
-            window.updateDose(drug.id, state.doses[drug.id] || 0);
-        } else if (card) {
-             // Update preview if collapsed
-             // Can't easily update preview without re-render or complex selection
-             // Let's just re-render list for weight change since focus isn't an issue usually on weight input
-        }
-    });
-    renderDrugList(); // Simplest for weight change
+function renderAllCalculations() {
+    renderDrugList();
 }
 
-
-// --- INIT ---
-renderCategories();
+// Start
 renderDrugList();
-
 </script>
 </body>
 </html>

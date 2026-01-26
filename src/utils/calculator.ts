@@ -30,6 +30,25 @@ export const calculateRate = (
     return (dose * 60) / concentration;
   }
 
+  // g/h -> ml/h
+  // (Dose * 1,000,000) / Conc
+  if (unit === 'g/h') {
+    return (dose * 1000000) / concentration;
+  }
+
+  // mg/dose -> ml (Volume)
+  // (Dose * 1000) / Conc
+  if (unit === 'mg/dose') {
+    return (dose * 1000) / concentration;
+  }
+
+  // mg/kg -> ml (Volume based on weight)
+  // (Dose * Weight * 1000) / Conc
+  if (unit === 'mg/kg') {
+    if (!weight) return 0;
+    return (dose * weight * 1000) / concentration;
+  }
+
   return 0;
 };
 

@@ -1,51 +1,33 @@
-# SAMU Infusões
+# SAMU Infusões (v1.3)
 
 Calculadora de infusões de drogas vasoativas para uso médico (SAMU 192).
-Desenvolvido com foco em UX para situações de emergência ("Medical Dark Mode").
+Desenvolvido com foco em UX para situações de emergência.
+
+## Novidades da Versão 1.3 (Protocolo V27)
+- **Base de Dados Expandida**: Suporte para 94 configurações de diluição (adulto e pediátrico).
+- **Novas Unidades**: Cálculos complexos incluindo `g/h`, `mg/dose`, `mg/kg`.
+- **Soft Alerts**: Alertas visuais (laranja) para doses altas, sem bloquear o uso.
+- **Segurança no Preparo**: Instruções visuais claras mostrando "mL de Droga + mL de Diluente" para evitar erros com ampolas de tamanhos variados.
 
 ## Funcionalidades
-
-- **Cálculo Rápido**: Conversão automática de dose (mcg/kg/min) para vazão (mL/h).
-- **Protocolos SAMU**: Diluições padronizadas conforme planilha oficial.
+- **Cálculo Rápido**: Conversão automática de dose para vazão (mL/h).
 - **Interface Otimizada**:
-  - Dark Mode para evitar ofuscamento noturno.
-  - Teclados numéricos otimizados.
-  - Peso global para agilizar múltiplos cálculos.
-- **Offline First**: PWA instalável que funciona sem internet.
+  - Busca rápida por droga ou classe.
+  - Peso global persistente.
+  - Alternancia rápida entre serigas de 20ml e 50ml.
+- **Offline First**:
+  - `standalone.html`: Arquivo único que roda em qualquer browser sem instalação.
+  - PWA: Versão React instalável.
 
-## Drogas Incluídas
-
-- Adrenalina
+## Drogas Suportadas (Amostra)
+- Adrenalina (Padrão/Conc)
+- Noradrenalina (Padrão/Conc/Ped)
 - Dobutamina
-- Noradrenalina
-- Fentanila
-- Midazolam
-- Nitroglicerina
+- Fentanila / Midazolam
+- Sulfato de Magnésio (Eclâmpsia/Bronco)
+- Nitroglicerina / Nitroprussiato
+- Amiodarona / Atropina
 
-## Execução sem Instalação (Standalone)
-
-Como alternativa para ambientes restritos (onde não é possível instalar Node.js), incluímos uma versão **Standalone** que funciona apenas com um arquivo HTML.
-
-1. Navegue até a pasta do projeto.
-2. Abra o arquivo **`standalone.html`** diretamente no seu navegador (Chrome, Edge).
-3. A aplicação funcionará offline com todas as funcionalidades.
-
-## Instalação (Desenvolvimento Completo)
-
-1. Instale [Node.js](https://nodejs.org/)
-2. Instale as dependências:
-   ```bash
-   npm install
-   ```
-3. Execute em modo de desenvolvimento:
-   ```bash
-   npm run dev
-   ```
-
-## Stack
-
-- React 18
-- TypeScript
-- Tailwind CSS
-- Vite + PWA
+## Como Usar (Standalone)
+Basta abrir o arquivo `standalone.html` em qualquer navegador (Chrome, Safari, Firefox). Não requer internet.
 
