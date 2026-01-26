@@ -1,4 +1,6 @@
-const DRUGS_DATA = [
+import { Drug } from '../types';
+
+export const drugsData: Drug[] = [
   {
     "id": "adrenalina_clor_20ml_50",
     "name": "ADRENALINA, CLORIDRATO",
@@ -537,7 +539,3 @@ const DRUGS_DATA = [
     "warning": "PEDIÁTRICO"
   }
 ];
-
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = DRUGS_DATA;
-}

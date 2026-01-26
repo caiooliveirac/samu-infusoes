@@ -1,20 +1,10 @@
 import { useState } from 'react';
-// @ts-ignore
-import drugsData from './data/drugs.js';
-import { Drug } from './types';
+import { drugsData } from './data/drugs';
 import { DrugCard } from './components/DrugCard';
-
-// Assert type for imported JSON
-const drugs = drugsData as Drug[];
-
-const CATEGORIES = [
-  { id: 'all', label: 'Todos' },
-  { id: 'vasopressor', label: 'Vasopressores' },
-  { id: 'sedativo', label: 'Sedativos' },
-  { id: 'inotropos', label: 'Inotrópicos' },
-  { id: 'vasodilatador', label: 'Vasodilatadores' },
-  { id: 'antiarritmico', label: 'Antiarritmicos' },
-];
+import { Header } from './components/Header';
+import { SearchAndWeight } from './components/SearchAndWeight';
+import { SyringeSelector } from './components/SyringeSelector';
+import { CategoryList } from './components/CategoryList';
 
 function App() {
   const [weight, setWeight] = useState<string>('70'); // Default 70kg
@@ -24,7 +14,7 @@ function App() {
 
   const numWeight = parseFloat(weight) || 0;
 
-  const filteredDrugs = drugs.filter(d => {
+  const filteredDrugs = drugsData.filter(d => {
     const matchesSearch = d.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           d.type.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || d.type === selectedCategory;
@@ -40,82 +30,24 @@ function App() {
       <div className="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800 shadow-xl shadow-black/20">
         <div className="max-w-md mx-auto p-4 space-y-4">
           
-          <header className="flex justify-between items-center">
-            <h1 className="text-xl font-bold text-slate-100 flex items-center gap-2">
-              <span className="text-cyan-400">SAMU</span> 192 Infusões
-            </h1>
-            <div className="text-xs font-mono text-slate-500 bg-slate-900 px-2 py-1 rounded">
-              v1.3
-            </div>
-          </header>
+          <Header />
 
-          <div className="grid grid-cols-[1.2fr_0.8fr] gap-4">
-            {/* Search */}
-            <div className="relative">
-              <input 
-                type="text" 
-                placeholder="Busca..." 
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-800 rounded-lg pl-9 pr-4 py-3 text-sm text-slate-100 focus:border-cyan-500/50 outline-none transition-colors"
-                autoComplete='off'
-              />
-              <svg className="absolute left-3 top-3.5 text-slate-500" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
+          <SearchAndWeight 
+            searchTerm={searchTerm} 
+            onSearchChange={setSearchTerm} 
+            weight={weight} 
+            onWeightChange={setWeight}
+          />
 
-            {/* Weight Input (Global) */}
-            <div className="relative">
-               <input
-                 type="number" 
-                 inputMode="decimal"
-                 value={weight}
-                 onChange={(e) => setWeight(e.target.value)}
-                 className="w-full bg-slate-900 border border-slate-800 rounded-lg pl-3 pr-8 py-3 text-sm font-mono text-cyan-400 font-bold text-center focus:border-cyan-500/50 outline-none transition-colors"
-                 placeholder="KG"
-               />
-               <span className="absolute right-3 top-3.5 text-xs font-medium text-slate-500 pointer-events-none">kg</span>
-            </div>
-          </div>
+          <SyringeSelector 
+            syringeSize={syringeSize} 
+            setSyringeSize={setSyringeSize} 
+          />
 
-          {/* Toggle Syringe Size */}
-          <div className="bg-slate-900 p-1 rounded-lg flex relative">
-            <button
-              onClick={() => setSyringeSize(20)}
-              className={`flex-1 py-1.5 text-xs font-bold uppercase rounded-md transition-all ${
-                syringeSize === 20 ? 'bg-cyan-500 text-white shadow-sm' : 'text-slate-500 hover:text-slate-300'
-              }`}
-            >
-              Seringa 20ml
-            </button>
-            <button
-              onClick={() => setSyringeSize(50)}
-              className={`flex-1 py-1.5 text-xs font-bold uppercase rounded-md transition-all ${
-                syringeSize === 50 ? 'bg-cyan-500 text-white shadow-sm' : 'text-slate-500 hover:text-slate-300'
-              }`}
-            >
-              Seringa 50ml
-            </button>
-          </div>
-
-          {/* Category Pills */}
-          <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 scrollbar-hide">
-            {CATEGORIES.map(cat => (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`
-                  whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-medium transition-all
-                  ${selectedCategory === cat.id 
-                    ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/25' 
-                    : 'bg-slate-900 text-slate-400 border border-slate-800 hover:border-slate-700'}
-                `}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
+          <CategoryList 
+            selectedCategory={selectedCategory} 
+            onSelectCategory={setSelectedCategory} 
+          />
 
         </div>
       </div>
