@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMU Infusões (Standalone)</title>
+    <style>
+        :root {
+            /* Palette: Slate & Cyan */
+            --bg-body: #020617; /* slate-950 */
+            --bg-card: #0f172a; /* slate-900 */
+            --bg-input: #0f172a; 
+            --border-color: #1e293b; /* slate-800 */
+            --text-primary: #f8fafc; /* slate-50 */
+            --text-secondary: #94a3b8; /* slate-400 */
+            --accent: #22d3ee; /* cyan-400 */
+            --accent-dim: rgba(34, 211, 238, 0.1);
+            
+            /* Drug Type Colors */
+            --color-vasopressor: #fb7185; /* rose-400 */
+            --bg-vasopressor: rgba(251, 113, 133, 0.1);
+            
+            --color-inotropos: #fbbf24; /* amber-400 */
+            --bg-inotropos: rgba(251, 191, 36, 0.1);
+            
+            --color-sedativo: #c084fc; /* purple-400 */
+            --bg-sedativo: rgba(192, 132, 252, 0.1);
+            
+            --color-vasodilatador: #34d399; /* emerald-400 */
+            --bg-vasodilatador: rgba(52, 211, 153, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        /* Utility Helpers */
+        .container { max-width: 480px; margin: 0 auto; padding: 0 16px; }
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-4 { gap: 1rem; }
+        .text-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+
+        /* AppBar */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: rgba(2, 6, 23, 0.9);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 0;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .brand h1 { font-size: 1.25rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .brand span { color: var(--accent); }
+        .badge { font-size: 0.75rem; color: var(--text-secondary); background: var(--border-color); padding: 2px 6px; border-radius: 4px; }
+
+        /* Inputs */
+        .input-group { position: relative; width: 100%; }
+        .input-group input {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 12px 16px;
+            padding-right: 40px; /* space for icon/suffix */
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .input-group input:focus { border-color: var(--accent); }
+        .input-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); pointer-events: none; }
+        .input-suffix { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); font-size: 0.75rem; font-weight: 600; }
+        
+        .weight-input input { text-align: center; font-weight: bold; color: var(--accent); font-family: monospace; }
+        
+        /* Drug Card */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        .card.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.2);
+        }
+
+        .card-header { padding: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: start; }
+        .card-header:active { background-color: rgba(255,255,255,0.05); }
+
+        .tag {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 6px;
+            border: 1px solid currentColor;
+        }
+
+        .drug-name { font-weight: 700; font-size: 1.1rem; }
+        .preview-rate { margin-top: 8px; display: flex; align-items: baseline; gap: 4px; }
+        .preview-val { font-size: 1.5rem; color: var(--accent); font-weight: bold; }
+        .preview-unit { font-size: 0.75rem; color: var(--text-secondary); }
+
+        .card-body {
+            background-color: rgba(15, 23, 42, 0.5);
+            border-top: 1px solid var(--border-color);
+            padding: 16px;
+            animation: slideDown 0.2s ease-out;
+        }
+
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Dilution Info Box */
+        .info-box {
+            background: rgba(2, 6, 23, 0.5);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .info-row { grid-column: span 2; border-top: 1px solid var(--border-color); padding-top: 8px; margin-top: 4px; }
+        .info-val { color: #cbd5e1; font-family: monospace; }
+
+        /* Result Box */
+        .result-box {
+            margin-top: 16px;
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .result-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #a5f3fc; }
+        .result-val { font-size: 2rem; font-weight: bold; color: var(--accent); font-family: monospace; }
+
+        /* Footer */
+        footer { margin-top: 40px; text-align: center; color: var(--text-secondary); font-size: 0.65rem; line-height: 1.5; padding: 0 20px; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="flex justify-between items-center" style="margin-bottom: 16px;">
+                <div class="brand">
+                    <h1><span>SAMU</span> 192</h1>
+                </div>
+                <div class="badge">Standalone v1.0</div>
+            </div>
+
+            <div class="flex gap-4">
+                <div class="input-group" style="flex: 1.2;">
+                    <input type="text" id="searchInput" placeholder="Buscar droga..." autocomplete="off">
+                </div>
+                <div class="input-group weight-input" style="flex: 0.8;">
+                    <input type="number" id="weightInput" value="70" inputmode="decimal">
+                    <span class="input-suffix">kg</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" id="drugList">
+        <!-- Cards injected by JS -->
+    </main>
+
+    <footer>
+        <p>USO PARA PROFISSIONAIS DE SAÚDE.<br>
+        O desenvolvedor não se responsabiliza pelo uso indevido.<br>
+        Confira diluições antes de administrar.</p>
+    </footer>
+
+    <script>
+        // --- 1. DATA (Embedded from drugs.json) ---
+        const drugs = [
+          {
+            "id": "adrenalina",
+            "name": "ADRENALINA (Cloridrato)",
+            "type": "vasopressor",
+            "presentation": { "ampoule_ml": 1, "mg_ml": 1 },
+            "standard_dilution": { "syringe_ml": 20, "drug_volume_ml": 1, "diluent_volume_ml": 19, "final_concentration_mcg_ml": 50 },
+            "default_dose": { "min": 0.05, "max": 2.0, "unit": "mcg/kg/min" }
+          },
+          {
+            "id": "dobutamina",
+            "name": "DOBUTAMINA (Cloridrato)",
+            "type": "inotropos",
+            "presentation": { "ampoule_ml": 20, "mg_ml": 12.5 },
+            "standard_dilution": { "syringe_ml": 50, "drug_volume_ml": 20, "diluent_volume_ml": 30, "final_concentration_mcg_ml": 5000 },
+            "default_dose": { "min": 2.0, "max": 20.0, "unit": "mcg/kg/min" }
+          },
+          {
+            "id": "noradrenalina",
+            "name": "NORADRENALINA (Hemitartarato)",
+            "type": "vasopressor",
+            "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
+            "standard_dilution": { "syringe_ml": 50, "drug_volume_ml": 16, "diluent_volume_ml": 34, "final_concentration_mcg_ml": 320 },
+            "default_dose": { "min": 0.05, "max": 2.0, "unit": "mcg/kg/min" }
+          },
+          {
+            "id": "fentanila",
+            "name": "FENTANILA (Citrato)",
+            "type": "sedativo",
+            "presentation": { "ampoule_ml": 10, "mg_ml": 0.05 },
+            "standard_dilution": { "syringe_ml": 50, "drug_volume_ml": 10, "diluent_volume_ml": 40, "final_concentration_mcg_ml": 10 },
+            "default_dose": { "min": 1.0, "max": 4.0, "unit": "mcg/kg/h" }
+          },
+          {
+            "id": "midazolam",
+            "name": "MIDAZOLAM (Sedação)",
+            "type": "sedativo",
+            "presentation": { "ampoule_ml": 10, "mg_ml": 5 },
+            "standard_dilution": { "syringe_ml": 50, "drug_volume_ml": 10, "diluent_volume_ml": 40, "final_concentration_mcg_ml": 1000 },
+            "default_dose": { "min": 100, "max": 400, "unit": "mcg/kg/h" }
+          },
+          {
+            "id": "nitroglicerina",
+            "name": "NITROGLICERINA (SCA)",
+            "type": "vasodilatador",
+            "presentation": { "ampoule_ml": 10, "mg_ml": 5 },
+            "standard_dilution": { "syringe_ml": 50, "drug_volume_ml": 20, "diluent_volume_ml": 30, "final_concentration_mcg_ml": 2000 },
+            "default_dose": { "min": 5, "max": 200, "unit": "mcg/min" }
+          }
+        ];
+
+        // --- 2. CALCULATOR LOGIC (From calculator.ts) ---
+        function calculateRate(dose, weight, drug) {
+            const concentration = drug.standard_dilution.final_concentration_mcg_ml;
+            const unit = drug.default_dose.unit;
+
+            if (concentration === 0) return 0;
+
+            if (unit === 'mcg/kg/min') {
+                if (!weight) return 0;
+                return (dose * weight * 60) / concentration;
+            }
+            if (unit === 'mcg/kg/h') {
+                if (!weight) return 0;
+                return (dose * weight) / concentration;
+            }
+            if (unit === 'mcg/min') {
+                return (dose * 60) / concentration;
+            }
+            return 0;
+        }
+
+        function formatNumber(num) {
+            if (num === 0) return '0';
+            if (num < 0.1) return num.toFixed(2);
+            if (num < 10) return num.toFixed(1);
+            return Math.round(num).toString();
+        }
+
+        // --- 3. UI LOGIC ---
+        const state = {
+            weight: 70,
+            search: '',
+            expandedCardId: null,
+            doses: {} // store dose input for each drug by id
+        };
+
+        // Initialize default doses
+        drugs.forEach(d => state.doses[d.id] = d.default_dose.min);
+
+        const drugListEl = document.getElementById('drugList');
+        const weightInput = document.getElementById('weightInput');
+        const searchInput = document.getElementById('searchInput');
+
+        function getTypeStyle(type) {
+            switch (type) {
+                case 'vasopressor': return { color: 'var(--color-vasopressor)', bg: 'var(--bg-vasopressor)' };
+                case 'inotropos': return { color: 'var(--color-inotropos)', bg: 'var(--bg-inotropos)' };
+                case 'sedativo': return { color: 'var(--color-sedativo)', bg: 'var(--bg-sedativo)' };
+                case 'vasodilatador': return { color: 'var(--color-vasodilatador)', bg: 'var(--bg-vasodilatador)' };
+                default: return { color: '#94a3b8', bg: 'rgba(148, 163, 184, 0.1)' };
+            }
+        }
+
+        function render() {
+            drugListEl.innerHTML = '';
+            
+            const filtered = drugs.filter(d => 
+                d.name.toLowerCase().includes(state.search.toLowerCase()) || 
+                d.type.toLowerCase().includes(state.search.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                drugListEl.innerHTML = `<div style="text-align:center; padding: 40px; color: var(--text-secondary)">Nenhuma droga encontrada.</div>`;
+                return;
+            }
+
+            filtered.forEach(drug => {
+                const isExpanded = state.expandedCardId === drug.id;
+                const currentDose = state.doses[drug.id];
+                const rate = calculateRate(currentDose, state.weight, drug);
+                const styles = getTypeStyle(drug.type);
+
+                const card = document.createElement('div');
+                card.className = `card ${isExpanded ? 'active' : ''}`;
+                
+                // Header
+                const header = document.createElement('div');
+                header.className = 'card-header';
+                header.onclick = () => {
+                    state.expandedCardId = isExpanded ? null : drug.id;
+                    render();
+                };
+
+                header.innerHTML = `
+                    <div style="flex:1">
+                        <span class="tag" style="color:${styles.color}; background:${styles.bg}; border-color:${styles.color}">${drug.type}</span>
+                        <div class="drug-name">${drug.name}</div>
+                        ${(!isExpanded && rate > 0) ? `
+                            <div class="preview-rate">
+                                <span class="preview-val text-mono">${formatNumber(rate)}</span>
+                                <span class="preview-unit">mL/h</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div style="color:var(--text-secondary)">
+                        ${isExpanded ? '▲' : '▼'}
+                    </div>
+                `;
+
+                card.appendChild(header);
+
+                // Body (if expanded)
+                if (isExpanded) {
+                    const body = document.createElement('div');
+                    body.className = 'card-body';
+                    
+                    body.innerHTML = `
+                        <div class="info-box">
+                            <div>
+                                <span style="display:block">Seringa</span>
+                                <span class="info-val">${drug.standard_dilution.syringe_ml} mL</span>
+                            </div>
+                            <div>
+                                <span style="display:block">Conc.</span>
+                                <span class="info-val">${drug.standard_dilution.final_concentration_mcg_ml} mcg/mL</span>
+                            </div>
+                            <div class="info-row">
+                                <span style="display:block; margin-bottom:2px;">Preparo</span>
+                                <span class="info-val">${drug.standard_dilution.drug_volume_ml}mL Droga + ${drug.standard_dilution.diluent_volume_ml}mL Diluente</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label style="display:block; font-size: 0.75rem; color:var(--text-secondary); margin-bottom:4px; text-transform:uppercase">Dose Prescrita</label>
+                            <input type="number" step="0.01" class="dose-input" value="${currentDose}" data-id="${drug.id}">
+                            <span class="input-suffix">${drug.default_dose.unit}</span>
+                        </div>
+
+                        ${rate > 0 ? `
+                            <div class="result-box">
+                                <span class="result-label">Vazão Bomba</span>
+                                <div style="text-align:right">
+                                    <span class="result-val">${formatNumber(rate)}</span>
+                                    <span style="font-size:0.9rem; color:var(--accent); opacity:0.7; margin-left:4px">mL/h</span>
+                                </div>
+                            </div>
+                        ` : ''}
+                    `;
+                    card.appendChild(body);
+                }
+
+                drugListEl.appendChild(card);
+            });
+
+            // Re-attach event listeners for dose inputs after rendering
+            document.querySelectorAll('.dose-input').forEach(input => {
+                input.oninput = (e) => {
+                    const id = e.target.getAttribute('data-id');
+                    state.doses[id] = parseFloat(e.target.value) || 0;
+                    // We only re-render if we need to update other parts, but for simplicity focused input preservation,
+                    // we might just update the DOM directly or use a debounce. 
+                    // To keep it simple in vanilla, we will re-calculate rate on the fly or just re-render carefully.
+                    // For this simple app, re-rendering the whole list kills focus.
+                    // Let's just update the result box of this card if present.
+                    const cardBody = e.target.closest('.card-body');
+                    const drug = drugs.find(d => d.id === id);
+                    if(cardBody && drug) {
+                       const newRate = calculateRate(state.doses[id], state.weight, drug);
+                       const resultVal = cardBody.querySelector('.result-val');
+                       if(resultVal) {
+                           resultVal.textContent = formatNumber(newRate);
+                       } else if (newRate > 0) {
+                           // If result box didn't exist (rate was 0), re-render to show it
+                           render();
+                           // Restore focus (simple hack)
+                           const newInput = document.querySelector(`.dose-input[data-id="${id}"]`);
+                           if(newInput) {
+                               newInput.focus(); 
+                               newInput.value = e.target.value; 
+                           }
+                       }
+                    }
+                };
+            });
+        }
+
+        // --- 4. EVENT LISTENERS ---
+        weightInput.addEventListener('input', (e) => {
+            state.weight = parseFloat(e.target.value) || 0;
+            render();
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            state.search = e.target.value;
+            render();
+        });
+
+        // Initial Render
+        render();
+
+    </script>
+</body>
+</html>
