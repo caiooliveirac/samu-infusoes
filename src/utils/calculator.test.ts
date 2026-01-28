@@ -110,6 +110,15 @@ describe('calculator utils', () => {
       expect(rate).toBe(30);
     });
 
+    it('should calculate rate correctly for unit "mg/min"', () => {
+      // Formula: (Dose * 1000 * 60) / Conc
+      // Example: Amiodarona 50mg/ml, diluída para 6000mcg/ml
+      // Dose 7.5mg/min -> 7.5 * 60000 / 6000 = 75 ml/h
+      const drug = createMockDrug('mg/min', 6000);
+      const rate = calculateRate(7.5, 70, drug);
+      expect(rate).toBe(75);
+    });
+
     it('should calculate rate correctly for unit "g/h"', () => {
       // Formula: (Dose * 1,000,000) / Conc
       // Example: (1 * 1000000) / 50000 = 20

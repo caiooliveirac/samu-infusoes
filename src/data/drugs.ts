@@ -16,7 +16,6 @@ export const drugsData: Drug[] = [
     "presentation": { "ampoule_ml": 1.0, "mg_ml": 1.0 },
     "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 1, "diluent_volume_ml": 49, "final_concentration_mcg_ml": 20 },
     "default_dose": { "min": 0.0476, "max": 1.0, "unit": "mcg/kg/min" },
-    "warning": "DILUIÇÃO 50ML"
   },
   {
     "id": "amiodarona_ataque_20ml",
@@ -24,26 +23,26 @@ export const drugsData: Drug[] = [
     "type": "antiarritmico",
     "presentation": { "ampoule_ml": 3, "mg_ml": 50 },
     "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 3, "diluent_volume_ml": 17, "final_concentration_mcg_ml": 7500 },
-    "default_dose": { "min": 0, "max": 300, "unit": "mg/dose" },
-    "warning": "ATAQUE"
+    "default_dose": { "min": 7.5, "max": 15, "unit": "mg/min" },
+    "warning": "INFUNDIR LENTAMENTE (10-20 min)"
   },
   {
     "id": "amiodarona_manut_6h_20ml",
     "name": "AMIODARONA (Manut 6h)",
     "type": "antiarritmico",
     "presentation": { "ampoule_ml": 3, "mg_ml": 50 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 6, "drug_volume_ml": 18, "diluent_volume_ml": 2, "final_concentration_mcg_ml": 9000 },
-    "default_dose": { "min": 7.1, "max": 14.3, "unit": "mcg/kg/min" },
-    "warning": "USAR 6 AMPOLAS"
+    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 3, "diluent_volume_ml": 17, "final_concentration_mcg_ml": 7500 },
+    "default_dose": { "min": 1000, "max": 1000, "unit": "mcg/min" },
+    
   },
   {
     "id": "amiodarona_manut_18h_20ml",
     "name": "AMIODARONA (Manut 18h)",
     "type": "antiarritmico",
     "presentation": { "ampoule_ml": 3, "mg_ml": 50 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 6, "drug_volume_ml": 18, "diluent_volume_ml": 2, "final_concentration_mcg_ml": 9000 },
-    "default_dose": { "min": 3.5, "max": 7.2, "unit": "mcg/kg/min" },
-    "warning": "USAR 6 AMPOLAS"
+    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 3, "diluent_volume_ml": 17, "final_concentration_mcg_ml": 7500 },
+    "default_dose": { "min": 500, "max": 500, "unit": "mcg/min" },
+    
   },
   {
     "id": "atropina_20ml",
@@ -221,27 +220,27 @@ export const drugsData: Drug[] = [
     "name": "AMIODARONA (Ataque)",
     "type": "antiarritmico",
     "presentation": { "ampoule_ml": 3, "mg_ml": 50 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 3, "diluent_volume_ml": 47, "final_concentration_mcg_ml": 3000 },
-    "default_dose": { "min": 28.0, "max": 43.0, "unit": "mcg/kg/min" },
-    "warning": "ATAQUE"
+    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 2, "drug_volume_ml": 6, "diluent_volume_ml": 44, "final_concentration_mcg_ml": 6000 },
+    "default_dose": { "min": 7.5, "max": 15.0, "unit": "mg/min" },
+    "warning": "INFUNDIR LENTAMENTE (10-20 min)"
   },
   {
     "id": "amiodarona_manut_6h_50ml",
     "name": "AMIODARONA (Manut 6h)",
     "type": "antiarritmico",
     "presentation": { "ampoule_ml": 3, "mg_ml": 50 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 6, "drug_volume_ml": 18, "diluent_volume_ml": 32, "final_concentration_mcg_ml": 18000 },
-    "default_dose": { "min": 14.3, "max": 14.3, "unit": "mcg/kg/min" },
-    "warning": "USAR 6 AMPOLAS"
+    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 2, "drug_volume_ml": 6, "diluent_volume_ml": 44, "final_concentration_mcg_ml": 6000 },
+    "default_dose": { "min": 1000, "max": 1000, "unit": "mcg/min" },
+
   },
   {
     "id": "amiodarona_manut_18h_50ml",
     "name": "AMIODARONA (Manut 18h)",
     "type": "antiarritmico",
     "presentation": { "ampoule_ml": 3, "mg_ml": 50 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 6, "drug_volume_ml": 18, "diluent_volume_ml": 32, "final_concentration_mcg_ml": 18000 },
-    "default_dose": { "min": 7.1, "max": 7.1, "unit": "mcg/kg/min" },
-    "warning": "USAR 6 AMPOLAS"
+    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 2, "drug_volume_ml": 6, "diluent_volume_ml": 44, "final_concentration_mcg_ml": 6000 },
+    "default_dose": { "min": 500, "max": 500, "unit": "mcg/min" },
+    
   },
   {
     "id": "cetamina_manut_50ml",

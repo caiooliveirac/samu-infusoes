@@ -50,6 +50,12 @@ export const calculateRate = (
     return (dose * 60) / concentration;
   }
 
+  // mg/min -> ml/h
+  // (Dose * 1000 * 60) / Conc
+  if (unit === 'mg/min') {
+    return (dose * 60000) / concentration;
+  }
+
   // g/h -> ml/h
   // (Dose * 1,000,000) / Conc
   if (unit === 'g/h') {
