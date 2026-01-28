@@ -58,8 +58,8 @@ export const drugsData: Drug[] = [
     "name": "CETAMINA (Manutenção)",
     "type": "sedativo",
     "presentation": { "ampoule_ml": 10, "mg_ml": 50 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 10, "diluent_volume_ml": 10, "final_concentration_mcg_ml": 25000 },
-    "default_dose": { "min": 1.4, "max": 7.2, "unit": "mcg/kg/min" }
+    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 0.1, "drug_volume_ml": 1, "diluent_volume_ml": 19, "final_concentration_mcg_ml": 2500 },
+    "default_dose": { "min": 8, "max": 30, "unit": "mcg/kg/min" }
   },
   {
     "id": "dobutamina_std_20ml",
@@ -247,8 +247,8 @@ export const drugsData: Drug[] = [
     "name": "CETAMINA (Manutenção)",
     "type": "sedativo",
     "presentation": { "ampoule_ml": 10, "mg_ml": 50 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 10, "diluent_volume_ml": 40, "final_concentration_mcg_ml": 10000 },
-    "default_dose": { "min": 1.4, "max": 7.1, "unit": "mcg/kg/min" }
+    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 0.2, "drug_volume_ml": 2, "diluent_volume_ml": 48, "final_concentration_mcg_ml": 2000 },
+    "default_dose": { "min": 8, "max": 30, "unit": "mcg/kg/min" }
   },
   {
     "id": "dobutamina_ini_50ml",
