@@ -209,30 +209,12 @@ export const drugsData: Drug[] = [
   },
   {
     "id": "noradrenalina_conc_20ml",
-    "name": "NORADRENALINA (Conc 4 amp)",
+    "name": "NORADRENALINA (200mcg/ml)",
     "type": "vasopressor",
     "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
     "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 4, "diluent_volume_ml": 16, "final_concentration_mcg_ml": 200 },
     "default_dose": { "min": 0.05, "max": 2.0, "unit": "mcg/kg/min" },
     "warning": "CONCENTRADA"
-  },
-  {
-    "id": "noradrenalina_2x_20ml",
-    "name": "NORADRENALINA (Conc 2X)",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 4, "diluent_volume_ml": 16, "final_concentration_mcg_ml": 200 },
-    "default_dose": { "min": 0.19, "max": 0.27, "unit": "mcg/kg/min" },
-    "warning": "CONCENTRADA 2X"
-  },
-  {
-    "id": "noradrenalina_4x_20ml",
-    "name": "NORADRENALINA (Conc 4X)",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 4, "diluent_volume_ml": 16, "final_concentration_mcg_ml": 200 },
-    "default_dose": { "min": 0.38, "max": 0.42, "unit": "mcg/kg/min" },
-    "warning": "CONCENTRADA 4X"
   },
   {
     "id": "amiodarona_ataque_50ml",
@@ -459,30 +441,12 @@ export const drugsData: Drug[] = [
   },
   {
     "id": "noradrenalina_conc_50ml",
-    "name": "NORADRENALINA (Equiv Concentrada)",
+    "name": "NORADRENALINA (80mcg/ml)",
     "type": "vasopressor",
     "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
     "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 4, "diluent_volume_ml": 46, "final_concentration_mcg_ml": 80 },
     "default_dose": { "min": 0.06, "max": 0.17, "unit": "mcg/kg/min" },
     "warning": "CONCENTRADA"
-  },
-  {
-    "id": "noradrenalina_2x_50ml",
-    "name": "NORADRENALINA (Equiv 2X)",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 4, "diluent_volume_ml": 46, "final_concentration_mcg_ml": 80 },
-    "default_dose": { "min": 0.19, "max": 0.27, "unit": "mcg/kg/min" },
-    "warning": "CONCENTRADA 2X"
-  },
-  {
-    "id": "noradrenalina_4x_50ml",
-    "name": "NORADRENALINA (Equiv 4X)",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 4, "diluent_volume_ml": 46, "final_concentration_mcg_ml": 80 },
-    "default_dose": { "min": 0.38, "max": 0.42, "unit": "mcg/kg/min" },
-    "warning": "CONCENTRADA 4X"
   },
   {
     "id": "noradrenalina_neo_20ml",
