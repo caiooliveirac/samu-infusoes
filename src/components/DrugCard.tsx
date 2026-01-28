@@ -38,6 +38,10 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
   const isHighDose = !isNaN(numDose) && maxDose !== null && numDose > maxDose;
   const isOutOfRange = isLowDose || isHighDose;
 
+  const formatDoseHint = (val: number) => {
+    return Number(val.toFixed(2)).toString();
+  };
+
   const getTypeColor = (type: string) => {
     switch (type) {
       case 'vasopressor': return 'text-rose-400 border-rose-400/20 bg-rose-400/10';
@@ -141,7 +145,7 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
                 >
                   <span className="text-[10px] text-slate-500 group-hover:text-cyan-400 transition-colors">Min</span>
                   <div className="text-[10px] font-medium bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full border border-slate-700 group-hover:border-cyan-500/30 group-hover:bg-cyan-500/10 group-hover:text-cyan-300 transition-all">
-                    {minDose} {drug.default_dose.unit}
+                    {formatDoseHint(minDose)} {drug.default_dose.unit}
                   </div>
                 </div>
               )}
@@ -153,7 +157,7 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
                 >
                   <span className="text-[10px] text-slate-500 group-hover:text-cyan-400 transition-colors">Máx</span>
                   <div className="text-[10px] font-medium bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full border border-slate-700 group-hover:border-cyan-500/30 group-hover:bg-cyan-500/10 group-hover:text-cyan-300 transition-all">
-                    {maxDose} {drug.default_dose.unit}
+                    {formatDoseHint(maxDose)} {drug.default_dose.unit}
                   </div>
                 </div>
               )}
@@ -174,13 +178,13 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
             {isHighDose && (
                <div className="text-[10px] font-bold text-orange-400 bg-orange-400/10 border border-orange-400/20 px-3 py-1.5 rounded-lg flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
                  <span>⚠️</span>
-                 Dose acima da referência máx ({maxDose} {drug.default_dose.unit})
+                 Dose acima da referência máx ({formatDoseHint(maxDose!)} {drug.default_dose.unit})
                </div>
             )}
             {isLowDose && (
                <div className="text-[10px] font-bold text-orange-400 bg-orange-400/10 border border-orange-400/20 px-3 py-1.5 rounded-lg flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
                  <span>⚠️</span>
-                 Dose abaixo da referência min ({minDose} {drug.default_dose.unit})
+                 Dose abaixo da referência min ({formatDoseHint(minDose!)} {drug.default_dose.unit})
                </div>
             )}
           </div>
