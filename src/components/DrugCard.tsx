@@ -31,7 +31,12 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
   const toggleExpand = () => setExpanded(!expanded);
   
   const numDose = parseFloat(dose);
-  const isHighDose = !isNaN(numDose) && drug.default_dose.max && numDose > drug.default_dose.max;
+  const minDose = drug.default_dose.min;
+  const maxDose = drug.default_dose.max;
+  
+  const isLowDose = !isNaN(numDose) && minDose !== null && numDose < minDose;
+  const isHighDose = !isNaN(numDose) && maxDose !== null && numDose > maxDose;
+  const isOutOfRange = isLowDose || isHighDose;
 
   const getTypeColor = (type: string) => {
     switch (type) {
@@ -126,6 +131,34 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
           </div>
 
           <div className="flex flex-col gap-2">
+            
+            {/* Dose Hints Badges */}
+            <div className="flex justify-between items-end px-1 select-none">
+              {minDose !== null && (
+                <div 
+                  onClick={() => setDose(minDose.toString())}
+                  className="flex flex-col items-start cursor-pointer group"
+                >
+                  <span className="text-[10px] text-slate-500 group-hover:text-cyan-400 transition-colors">Min</span>
+                  <div className="text-[10px] font-medium bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full border border-slate-700 group-hover:border-cyan-500/30 group-hover:bg-cyan-500/10 group-hover:text-cyan-300 transition-all">
+                    {minDose} {drug.default_dose.unit}
+                  </div>
+                </div>
+              )}
+
+              {maxDose !== null && (
+                <div 
+                  onClick={() => setDose(maxDose.toString())}
+                  className="flex flex-col items-end cursor-pointer group"
+                >
+                  <span className="text-[10px] text-slate-500 group-hover:text-cyan-400 transition-colors">Máx</span>
+                  <div className="text-[10px] font-medium bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full border border-slate-700 group-hover:border-cyan-500/30 group-hover:bg-cyan-500/10 group-hover:text-cyan-300 transition-all">
+                    {maxDose} {drug.default_dose.unit}
+                  </div>
+                </div>
+              )}
+            </div>
+
             <div className="flex-1">
               <Input
                 label="Dose Prescrita"
@@ -135,13 +168,19 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
                 onChange={(e) => setDose(e.target.value)}
                 suffix={drug.default_dose.unit}
                 step={0.01}
-                className={isHighDose ? 'border-orange-500/50 bg-orange-950/10 text-orange-200' : ''}
+                className={isOutOfRange ? 'border-orange-500/50 bg-orange-950/10 text-orange-200' : ''}
               />
             </div>
             {isHighDose && (
                <div className="text-[10px] font-bold text-orange-400 bg-orange-400/10 border border-orange-400/20 px-3 py-1.5 rounded-lg flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
                  <span>⚠️</span>
-                 Dose acima da referência ({drug.default_dose.max} {drug.default_dose.unit})
+                 Dose acima da referência máx ({maxDose} {drug.default_dose.unit})
+               </div>
+            )}
+            {isLowDose && (
+               <div className="text-[10px] font-bold text-orange-400 bg-orange-400/10 border border-orange-400/20 px-3 py-1.5 rounded-lg flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
+                 <span>⚠️</span>
+                 Dose abaixo da referência min ({minDose} {drug.default_dose.unit})
                </div>
             )}
           </div>
