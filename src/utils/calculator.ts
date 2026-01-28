@@ -1,4 +1,24 @@
-import { Drug } from '../types';
+import { Drug, DrugPresentation, StandardDilution } from '../types';
+
+export const calculateConcentration = (
+  presentation: DrugPresentation,
+  dilution: Pick<StandardDilution, 'diluent_volume_ml' | 'num_ampoules' | 'drug_volume_ml'>
+): number => {
+  let drugVolume = 0;
+
+  if (dilution.num_ampoules) {
+    drugVolume = dilution.num_ampoules * presentation.ampoule_ml;
+  } else if (dilution.drug_volume_ml) {
+    drugVolume = dilution.drug_volume_ml;
+  }
+
+  const totalMg = drugVolume * presentation.mg_ml;
+  const totalVolume = dilution.diluent_volume_ml + drugVolume;
+
+  if (totalVolume === 0) return 0;
+
+  return (totalMg * 1000) / totalVolume;
+};
 
 export const calculateRate = (
   dose: number,
@@ -55,6 +75,6 @@ export const calculateRate = (
 export const formatNumber = (num: number): string => {
   if (num === 0) return '0';
   if (num < 0.1) return num.toFixed(2);
-  if (num < 10) return num.toFixed(1);
+  if (num < 100) return num.toFixed(1);
   return Math.round(num).toString();
 };
