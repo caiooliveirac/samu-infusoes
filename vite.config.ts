@@ -4,7 +4,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: './', // Garante caminhos relativos para funcionar em qualquer subpasta (GitHub Pages)
+  base: '/samu-infusoes/', // Caminho absoluto para o repositório no GitHub Pages
   server: {
     host: true
   },
