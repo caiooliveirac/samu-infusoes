@@ -63,38 +63,11 @@ export const drugsData: Drug[] = [
   },
   {
     "id": "dobutamina_std_20ml",
-    "name": "DOBUTAMINA (Manutenção)",
-    "type": "inotropos",
+    "name": "DOBUTAMINA",
+    "type": "inotrópicos",
     "presentation": { "ampoule_ml": 20, "mg_ml": 12.5 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 20, "diluent_volume_ml": 0, "final_concentration_mcg_ml": 12500 },
+    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 0.4, "drug_volume_ml": 8, "diluent_volume_ml": 12, "final_concentration_mcg_ml": 5000 },
     "default_dose": { "min": 2.0, "max": 20.0, "unit": "mcg/kg/min" }
-  },
-  {
-    "id": "dobutamina_conc_20ml",
-    "name": "DOBUTAMINA (Equiv Concentrada)",
-    "type": "inotropos",
-    "presentation": { "ampoule_ml": 20, "mg_ml": 12.5 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 20, "diluent_volume_ml": 0, "final_concentration_mcg_ml": 12500 },
-    "default_dose": { "min": 3.5, "max": 20.0, "unit": "mcg/kg/min" },
-    "warning": "CONCENTRADA"
-  },
-  {
-    "id": "dobutamina_conc_2x_20ml",
-    "name": "DOBUTAMINA (Equiv 2X Concentrada)",
-    "type": "inotropos",
-    "presentation": { "ampoule_ml": 20, "mg_ml": 12.5 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 20, "diluent_volume_ml": 0, "final_concentration_mcg_ml": 12500 },
-    "default_dose": { "min": 3.5, "max": 20.0, "unit": "mcg/kg/min" },
-    "warning": "CONCENTRADA 2X"
-  },
-  {
-    "id": "dobutamina_conc_4x_20ml",
-    "name": "DOBUTAMINA (Equiv 4X Concentrada)",
-    "type": "inotropos",
-    "presentation": { "ampoule_ml": 20, "mg_ml": 12.5 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 20, "diluent_volume_ml": 0, "final_concentration_mcg_ml": 12500 },
-    "default_dose": { "min": 3.5, "max": 20.0, "unit": "mcg/kg/min" },
-    "warning": "CONCENTRADA 4X"
   },
   {
     "id": "dopamina_media_20ml",
@@ -252,47 +225,14 @@ export const drugsData: Drug[] = [
   },
   {
     "id": "dobutamina_ini_50ml",
-    "name": "DOBUTAMINA (Inicial)",
-    "type": "inotropos",
+    "name": "DOBUTAMINA",
+    "type": "inotrópicos",
     "presentation": { "ampoule_ml": 20, "mg_ml": 12.5 },
     "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 20, "diluent_volume_ml": 30, "final_concentration_mcg_ml": 5000 },
-    "default_dose": { "min": 0.6, "max": 1.2, "unit": "mcg/kg/min" }
+    "default_dose": { "min": 2, "max": 20, "unit": "mcg/kg/min" }
   },
-  {
-    "id": "dobutamina_manut_50ml",
-    "name": "DOBUTAMINA (Manutenção)",
-    "type": "inotropos",
-    "presentation": { "ampoule_ml": 20, "mg_ml": 12.5 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 20, "diluent_volume_ml": 30, "final_concentration_mcg_ml": 5000 },
-    "default_dose": { "min": 1.8, "max": 20.0, "unit": "mcg/kg/min" }
-  },
-  {
-    "id": "dobutamina_conc_50ml",
-    "name": "DOBUTAMINA (Equiv Concentrada)",
-    "type": "inotropos",
-    "presentation": { "ampoule_ml": 20, "mg_ml": 12.5 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 20, "diluent_volume_ml": 30, "final_concentration_mcg_ml": 5000 },
-    "default_dose": { "min": 3.6, "max": 20.0, "unit": "mcg/kg/min" },
-    "warning": "CONCENTRADA"
-  },
-  {
-    "id": "dobutamina_2x_50ml",
-    "name": "DOBUTAMINA (Equiv 2X)",
-    "type": "inotropos",
-    "presentation": { "ampoule_ml": 20, "mg_ml": 12.5 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 20, "diluent_volume_ml": 30, "final_concentration_mcg_ml": 5000 },
-    "default_dose": { "min": 3.6, "max": 20.0, "unit": "mcg/kg/min" },
-    "warning": "CONCENTRADA"
-  },
-  {
-    "id": "dobutamina_4x_50ml",
-    "name": "DOBUTAMINA (Equiv 4X)",
-    "type": "inotropos",
-    "presentation": { "ampoule_ml": 20, "mg_ml": 12.5 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 20, "diluent_volume_ml": 30, "final_concentration_mcg_ml": 5000 },
-    "default_dose": { "min": 3.6, "max": 20.0, "unit": "mcg/kg/min" },
-    "warning": "CONCENTRADA"
-  },
+
+
   {
     "id": "dopamina_baixa_50ml",
     "name": "DOPAMINA (Dose Baixa)",
