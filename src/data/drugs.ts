@@ -71,21 +71,12 @@ export const drugsData: Drug[] = [
   },
   {
     "id": "dopamina_media_20ml",
-    "name": "DOPAMINA (Dose Média)",
+    "name": "DOPAMINA",
     "type": "vasopressor",
     "presentation": { "ampoule_ml": 10, "mg_ml": 5 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 2, "drug_volume_ml": 20, "diluent_volume_ml": 0, "final_concentration_mcg_ml": 5000 },
+    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 10, "diluent_volume_ml": 10, "final_concentration_mcg_ml": 2500 },
     "default_dose": { "min": 5.0, "max": 20.0, "unit": "mcg/kg/min" },
-    "warning": "USAR 2 AMPOLAS"
-  },
-  {
-    "id": "dopamina_alta_20ml",
-    "name": "DOPAMINA (Dose Alta)",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 10, "mg_ml": 5 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 2, "drug_volume_ml": 20, "diluent_volume_ml": 0, "final_concentration_mcg_ml": 5000 },
-    "default_dose": { "min": 5.0, "max": 20.0, "unit": "mcg/kg/min" },
-    "warning": "USAR 2 AMPOLAS"
+    
   },
   {
     "id": "fenitoina_20ml",
@@ -239,27 +230,9 @@ export const drugsData: Drug[] = [
     "type": "vasopressor",
     "presentation": { "ampoule_ml": 10, "mg_ml": 5 },
     "standard_dilution": { "syringe_ml": 50, "num_ampoules": 2, "drug_volume_ml": 20, "diluent_volume_ml": 30, "final_concentration_mcg_ml": 2000 },
-    "default_dose": { "min": 0.8, "max": 1.9, "unit": "mcg/kg/min" },
-    "warning": "USAR 2 AMPOLAS"
+    "default_dose": { "min": 2, "max": 20, "unit": "mcg/kg/min" },
   },
-  {
-    "id": "dopamina_media_50ml",
-    "name": "DOPAMINA (Dose Média)",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 10, "mg_ml": 5 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 2, "drug_volume_ml": 20, "diluent_volume_ml": 30, "final_concentration_mcg_ml": 2000 },
-    "default_dose": { "min": 5.0, "max": 20.0, "unit": "mcg/kg/min" },
-    "warning": "USAR 2 AMPOLAS"
-  },
-  {
-    "id": "dopamina_alta_50ml",
-    "name": "DOPAMINA (Dose Alta)",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 10, "mg_ml": 5 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 2, "drug_volume_ml": 20, "diluent_volume_ml": 30, "final_concentration_mcg_ml": 2000 },
-    "default_dose": { "min": 5.0, "max": 20.0, "unit": "mcg/kg/min" },
-    "warning": "USAR 2 AMPOLAS"
-  },
+
   {
     "id": "fenitoina_50ml",
     "name": "FENITOÍNA",
