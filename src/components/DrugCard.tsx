@@ -54,6 +54,14 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
     }
   };
 
+  const getTypeLabel = (type: string) => {
+    switch (type) {
+      case 'inotropos': return 'Inotrópicos';
+      case 'antiarritmico': return 'Antiarrítmico';
+      default: return type.charAt(0).toUpperCase() + type.slice(1);
+    }
+  };
+
   return (
     <div className={`
       relative overflow-hidden transition-all duration-300 ease-in-out
@@ -68,7 +76,7 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1 flex-wrap">
             <span className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded border ${getTypeColor(drug.type)}`}>
-              {drug.type}
+              {getTypeLabel(drug.type)}
             </span>
             {drug.warning && (
                <span className="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded border text-red-400 border-red-400/20 bg-red-400/10 flex items-center gap-1">
