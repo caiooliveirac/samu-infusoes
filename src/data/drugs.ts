@@ -78,22 +78,14 @@ export const drugsData: Drug[] = [
     "default_dose": { "min": 5.0, "max": 20.0, "unit": "mcg/kg/min" },
     
   },
-  {
-    "id": "fenitoina_20ml",
-    "name": "FENITOÍNA",
-    "type": "outros",
-    "presentation": { "ampoule_ml": 5, "mg_ml": 50 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 2, "drug_volume_ml": 10, "diluent_volume_ml": 10, "final_concentration_mcg_ml": 25000 },
-    "default_dose": { "min": 35.0, "max": 715.0, "unit": "mcg/kg/min" },
-    "warning": "USAR 2 AMPOLAS"
-  },
+
   {
     "id": "fentanila_2ml_20ml",
     "name": "FENTANILA 2ml",
     "type": "sedativo",
     "presentation": { "ampoule_ml": 2, "mg_ml": 0.05 },
     "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 2, "diluent_volume_ml": 18, "final_concentration_mcg_ml": 5 },
-    "default_dose": { "min": 0.02, "max": 0.05, "unit": "mcg/kg/min" }
+    "default_dose": { "min": 1, "max": 4, "unit": "mcg/kg/h" }
   },
   {
     "id": "fentanila_10ml_20ml",
@@ -101,7 +93,7 @@ export const drugsData: Drug[] = [
     "type": "sedativo",
     "presentation": { "ampoule_ml": 10, "mg_ml": 0.05 },
     "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 10, "diluent_volume_ml": 10, "final_concentration_mcg_ml": 25 },
-    "default_dose": { "min": 0.02, "max": 0.05, "unit": "mcg/kg/min" }
+    "default_dose": { "min": 1, "max": 4, "unit": "mcg/kg/h" }
   },
   {
     "id": "magnesio_ataque_20ml",
@@ -234,21 +226,12 @@ export const drugsData: Drug[] = [
   },
 
   {
-    "id": "fenitoina_50ml",
-    "name": "FENITOÍNA",
-    "type": "outros",
-    "presentation": { "ampoule_ml": 5, "mg_ml": 50 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 2, "drug_volume_ml": 10, "diluent_volume_ml": 40, "final_concentration_mcg_ml": 10000 },
-    "default_dose": { "min": 35.7, "max": 714.3, "unit": "mcg/kg/min" },
-    "warning": "USAR 2 AMPOLAS"
-  },
-  {
     "id": "fentanila_2ml_50ml",
     "name": "FENTANILA 2ml",
     "type": "sedativo",
     "presentation": { "ampoule_ml": 2, "mg_ml": 0.05 },
     "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 2, "diluent_volume_ml": 48, "final_concentration_mcg_ml": 2 },
-    "default_dose": { "min": 0.02, "max": 0.05, "unit": "mcg/kg/min" }
+    "default_dose": { "min": 1, "max": 4, "unit": "mcg/kg/h" }
   },
   {
     "id": "fentanila_10ml_50ml",
@@ -256,7 +239,7 @@ export const drugsData: Drug[] = [
     "type": "sedativo",
     "presentation": { "ampoule_ml": 10, "mg_ml": 0.05 },
     "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 10, "diluent_volume_ml": 40, "final_concentration_mcg_ml": 10 },
-    "default_dose": { "min": 0.02, "max": 0.05, "unit": "mcg/kg/min" }
+    "default_dose": { "min": 1, "max": 4, "unit": "mcg/kg/h" }
   },
   {
     "id": "magnesio_bronco_50ml",
