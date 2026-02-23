@@ -25,4 +25,8 @@ export interface Drug {
   standard_dilution: StandardDilution;
   default_dose: DefaultDose;
   warning?: string;
+  alert_threshold?: {
+    value: number;
+    message: string;
+  };
 }

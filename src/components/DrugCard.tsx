@@ -36,7 +36,8 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
   
   const isLowDose = !isNaN(numDose) && minDose !== null && numDose < minDose;
   const isHighDose = !isNaN(numDose) && maxDose !== null && numDose > maxDose;
-  const isOutOfRange = isLowDose || isHighDose;
+  const isAboveThreshold = !isNaN(numDose) && drug.alert_threshold && numDose > drug.alert_threshold.value;
+  const isOutOfRange = isLowDose || isHighDose || isAboveThreshold;
 
   const formatDoseHint = (val: number) => {
     return Number(val.toFixed(2)).toString();
@@ -83,7 +84,12 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
                  <span className="text-[8px]">⚠️</span> {drug.warning}
                </span>
             )}
-            {!expanded && isHighDose && (
+            {!expanded && isAboveThreshold && (
+               <span className="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded border text-red-400 border-red-400/20 bg-red-400/10">
+                 🚨 TOXICIDADE
+               </span>
+            )}
+            {!expanded && isHighDose && !isAboveThreshold && (
                <span className="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded border text-orange-400 border-orange-400/20 bg-orange-400/10">
                  ALERTA
                </span>
@@ -183,6 +189,12 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
                 className={isOutOfRange ? 'border-orange-500/50 bg-orange-950/10 text-orange-200' : ''}
               />
             </div>
+            {isAboveThreshold && (
+               <div className="text-[10px] font-bold text-red-400 bg-red-400/10 border border-red-400/20 px-3 py-1.5 rounded-lg flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
+                 <span>🚨</span>
+                 {drug.alert_threshold!.message}
+               </div>
+            )}
             {isHighDose && (
                <div className="text-[10px] font-bold text-orange-400 bg-orange-400/10 border border-orange-400/20 px-3 py-1.5 rounded-lg flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
                  <span>⚠️</span>

@@ -100,7 +100,7 @@ export const drugsData: Drug[] = [
     "name": "MAGNÉSIO (Ataque Eclampsia)",
     "type": "outros",
     "presentation": { "ampoule_ml": 10, "mg_ml": 500 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 8, "diluent_volume_ml": 12, "final_concentration_mcg_ml": 200000 },
+    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 0.8, "drug_volume_ml": 8, "diluent_volume_ml": 12, "final_concentration_mcg_ml": 200000 },
     "default_dose": { "min": 2850, "max": 3810, "unit": "mcg/kg/min" }
   },
   {
@@ -117,7 +117,7 @@ export const drugsData: Drug[] = [
     "name": "MAGNÉSIO (Broncoespasmo)",
     "type": "outros",
     "presentation": { "ampoule_ml": 10, "mg_ml": 500 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 4, "diluent_volume_ml": 16, "final_concentration_mcg_ml": 100000 },
+    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 0.4, "drug_volume_ml": 4, "diluent_volume_ml": 16, "final_concentration_mcg_ml": 100000 },
     "default_dose": { "min": 142, "max": 238, "unit": "mcg/kg/min" }
   },
   {
@@ -137,13 +137,22 @@ export const drugsData: Drug[] = [
     "default_dose": { "min": 1.8, "max": 6.6, "unit": "mcg/kg/min" }
   },
   {
-    "id": "nitroglicerina_tridil_20ml",
-    "name": "NITROGLICERINA (Tridil Conc)",
+    "id": "nitroglicerina_400_20ml",
+    "name": "NITROGLICERINA (Tridil 20ml)",
     "type": "vasodilatador",
     "presentation": { "ampoule_ml": 10, "mg_ml": 5 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 2, "drug_volume_ml": 20, "diluent_volume_ml": 0, "final_concentration_mcg_ml": 5000 },
-    "default_dose": { "min": 0.9, "max": 4.8, "unit": "mcg/kg/min" },
-    "warning": "USAR 2 AMPOLAS"
+    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 0.2, "drug_volume_ml": 2, "diluent_volume_ml": 18, "final_concentration_mcg_ml": 500 },
+    "default_dose": { "min": 5, "max": 200, "unit": "mcg/min" },
+    "warning": "EVITAR PVC"
+  },
+  {
+    "id": "nitroglicerina_400_50ml",
+    "name": "NITROGLICERINA (Tridil 50ml)",
+    "type": "vasodilatador",
+    "presentation": { "ampoule_ml": 10, "mg_ml": 5 },
+    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 0.4, "drug_volume_ml": 4, "diluent_volume_ml": 46, "final_concentration_mcg_ml": 400 },
+    "default_dose": { "min": 5, "max": 200, "unit": "mcg/min" },
+    "warning": "EVITAR PVC"
   },
   {
     "id": "propofol_20ml",
@@ -154,22 +163,55 @@ export const drugsData: Drug[] = [
     "default_dose": { "min": 16.0, "max": 200.0, "unit": "mcg/kg/min" }
   },
   {
-    "id": "nipride_conc_20ml",
-    "name": "NITROPRUSSIATO (Nipride Conc)",
+    "id": "nipride_20ml",
+    "name": "NITROPRUSSIATO (Nipride 20ml)",
     "type": "vasodilatador",
     "presentation": { "ampoule_ml": 2, "mg_ml": 25 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 2, "diluent_volume_ml": 18, "final_concentration_mcg_ml": 2500 },
-    "default_dose": { "min": 0.5, "max": 1.5, "unit": "mcg/kg/min" },
-    "warning": "CONCENTRADA"
+    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 0.5, "drug_volume_ml": 1, "diluent_volume_ml": 19, "final_concentration_mcg_ml": 1250 },
+    "default_dose": { "min": 0.25, "max": 10.0, "unit": "mcg/kg/min" },
+    "warning": "PROTEGER DA LUZ",
+    "alert_threshold": { "value": 2, "message": "RISCO DE INTOXICAÇÃO POR CIANETO acima de 2 mcg/kg/min" }
   },
   {
-    "id": "noradrenalina_conc_20ml",
-    "name": "NORADRENALINA (200mcg/ml)",
+    "id": "noradrenalina_1ml_20ml",
+    "name": "NORADRENALINA (1mL → 50mcg/ml)",
+    "type": "vasopressor",
+    "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
+    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 0.25, "drug_volume_ml": 1, "diluent_volume_ml": 19, "final_concentration_mcg_ml": 50 },
+    "default_dose": { "min": 0.01, "max": 2.0, "unit": "mcg/kg/min" }
+  },
+  {
+    "id": "noradrenalina_2ml_20ml",
+    "name": "NORADRENALINA (2mL → 100mcg/ml)",
+    "type": "vasopressor",
+    "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
+    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 0.5, "drug_volume_ml": 2, "diluent_volume_ml": 18, "final_concentration_mcg_ml": 100 },
+    "default_dose": { "min": 0.01, "max": 2.0, "unit": "mcg/kg/min" }
+  },
+  {
+    "id": "noradrenalina_4ml_20ml",
+    "name": "NORADRENALINA (4mL → 200mcg/ml)",
     "type": "vasopressor",
     "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
     "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 4, "diluent_volume_ml": 16, "final_concentration_mcg_ml": 200 },
-    "default_dose": { "min": 0.05, "max": 2.0, "unit": "mcg/kg/min" },
-    "warning": "CONCENTRADA"
+    "default_dose": { "min": 0.01, "max": 2.0, "unit": "mcg/kg/min" }
+  },
+  {
+    "id": "noradrenalina_4ml_50ml",
+    "name": "NORADRENALINA (4mL → 80mcg/ml)",
+    "type": "vasopressor",
+    "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
+    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 4, "diluent_volume_ml": 46, "final_concentration_mcg_ml": 80 },
+    "default_dose": { "min": 0.01, "max": 2.0, "unit": "mcg/kg/min" }
+  },
+  {
+    "id": "noradrenalina_8ml_50ml",
+    "name": "NORADRENALINA (8mL → 160mcg/ml)",
+    "type": "vasopressor",
+    "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
+    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 2, "drug_volume_ml": 8, "diluent_volume_ml": 42, "final_concentration_mcg_ml": 160 },
+    "default_dose": { "min": 0.01, "max": 2.0, "unit": "mcg/kg/min" },
+    "warning": "USAR 2 AMPOLAS"
   },
   {
     "id": "amiodarona_ataque_50ml",
@@ -218,7 +260,7 @@ export const drugsData: Drug[] = [
 
   {
     "id": "dopamina_baixa_50ml",
-    "name": "DOPAMINA (Dose Baixa)",
+    "name": "DOPAMINA",
     "type": "vasopressor",
     "presentation": { "ampoule_ml": 10, "mg_ml": 5 },
     "standard_dilution": { "syringe_ml": 50, "num_ampoules": 2, "drug_volume_ml": 20, "diluent_volume_ml": 30, "final_concentration_mcg_ml": 2000 },
@@ -246,8 +288,8 @@ export const drugsData: Drug[] = [
     "name": "MAGNÉSIO (Broncoespasmo)",
     "type": "outros",
     "presentation": { "ampoule_ml": 10, "mg_ml": 500 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 4, "diluent_volume_ml": 46, "final_concentration_mcg_ml": 40000 },
-    "default_dose": { "min": 0.0, "max": 381.0, "unit": "mcg/kg/min" }
+    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 0.4, "drug_volume_ml": 4, "diluent_volume_ml": 46, "final_concentration_mcg_ml": 40000 },
+    "default_dose": { "min": 142, "max": 381.0, "unit": "mcg/kg/min" }
   },
   {
     "id": "midazolam_3ml_50ml",
@@ -282,24 +324,6 @@ export const drugsData: Drug[] = [
     "default_dose": { "min": 0.5, "max": 5.0, "unit": "mcg/kg/min" }
   },
   {
-    "id": "nitroglicerina_tridil_50ml",
-    "name": "NITROGLICERINA (Tridil Conc)",
-    "type": "vasodilatador",
-    "presentation": { "ampoule_ml": 10, "mg_ml": 5 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 2, "drug_volume_ml": 20, "diluent_volume_ml": 30, "final_concentration_mcg_ml": 2000 },
-    "default_dose": { "min": 1.0, "max": 4.8, "unit": "mcg/kg/min" },
-    "warning": "USAR 2 AMPOLAS"
-  },
-  {
-    "id": "nitroglicerina_tridil_std_50ml",
-    "name": "NITROGLICERINA (Tridil Padrão)",
-    "type": "vasodilatador",
-    "presentation": { "ampoule_ml": 5, "mg_ml": 5 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 2, "drug_volume_ml": 10, "diluent_volume_ml": 40, "final_concentration_mcg_ml": 1000 },
-    "default_dose": { "min": 1.0, "max": 4.8, "unit": "mcg/kg/min" },
-    "warning": "USAR 2 AMPOLAS"
-  },
-  {
     "id": "propofol_50ml",
     "name": "PROPOFOL 1%",
     "type": "sedativo",
@@ -318,83 +342,13 @@ export const drugsData: Drug[] = [
     "warning": "USAR 2 AMPOLAS"
   },
   {
-    "id": "nipride_std_50ml",
-    "name": "NITROPRUSSIATO (Nipride Padrão)",
+    "id": "nipride_50ml",
+    "name": "NITROPRUSSIATO (Nipride 50ml)",
     "type": "vasodilatador",
     "presentation": { "ampoule_ml": 2, "mg_ml": 25 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 2, "diluent_volume_ml": 48, "final_concentration_mcg_ml": 200 },
-    "default_dose": { "min": 0.5, "max": 1.4, "unit": "mcg/kg/min" }
-  },
-  {
-    "id": "nipride_conc_50ml",
-    "name": "NITROPRUSSIATO (Nipride Conc)",
-    "type": "vasodilatador",
-    "presentation": { "ampoule_ml": 2, "mg_ml": 25 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 2, "diluent_volume_ml": 48, "final_concentration_mcg_ml": 200 },
-    "default_dose": { "min": 1.0, "max": 2.9, "unit": "mcg/kg/min" },
-    "warning": "CONCENTRADA"
-  },
-  {
-    "id": "noradrenalina_conc_50ml",
-    "name": "NORADRENALINA (80mcg/ml)",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 4, "diluent_volume_ml": 46, "final_concentration_mcg_ml": 80 },
-    "default_dose": { "min": 0.06, "max": 0.17, "unit": "mcg/kg/min" },
-    "warning": "CONCENTRADA"
-  },
-  {
-    "id": "noradrenalina_neo_20ml",
-    "name": "NORADRENALINA (Neonatal 20ml)",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 0.32, "diluent_volume_ml": 19.68, "final_concentration_mcg_ml": 16 },
-    "default_dose": { "min": 0.05, "max": 1.0, "unit": "mcg/kg/min" },
-    "warning": "NEONATAL"
-  },
-  {
-    "id": "noradrenalina_neo_50ml",
-    "name": "NORADRENALINA (Neonatal 50ml)",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 0.8, "diluent_volume_ml": 49.2, "final_concentration_mcg_ml": 16 },
-    "default_dose": { "min": 0.05, "max": 1.0, "unit": "mcg/kg/min" },
-    "warning": "NEONATAL"
-  },
-  {
-    "id": "noradrenalina_ped32_20ml",
-    "name": "NORADRENALINA (Ped 32mcg 20ml)",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 0.64, "diluent_volume_ml": 19.36, "final_concentration_mcg_ml": 32 },
-    "default_dose": { "min": 0.05, "max": 1.0, "unit": "mcg/kg/min" },
-    "warning": "PEDIÁTRICO"
-  },
-  {
-    "id": "noradrenalina_ped32_50ml",
-    "name": "NORADRENALINA (Ped 32mcg 50ml)",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 1.6, "diluent_volume_ml": 48.4, "final_concentration_mcg_ml": 32 },
-    "default_dose": { "min": 0.05, "max": 1.0, "unit": "mcg/kg/min" },
-    "warning": "PEDIÁTRICO"
-  },
-  {
-    "id": "noradrenalina_ped64_20ml",
-    "name": "NORADRENALINA (Ped 64mcg 20ml)",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 1.28, "diluent_volume_ml": 18.72, "final_concentration_mcg_ml": 64 },
-    "default_dose": { "min": 0.05, "max": 1.0, "unit": "mcg/kg/min" },
-    "warning": "PEDIÁTRICO"
-  },
-  {
-    "id": "noradrenalina_ped64_50ml",
-    "name": "NORADRENALINA (Ped 64mcg 50ml)",
-    "type": "vasopressor",
-    "presentation": { "ampoule_ml": 4, "mg_ml": 1 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 3.2, "diluent_volume_ml": 46.8, "final_concentration_mcg_ml": 64 },
-    "default_dose": { "min": 0.05, "max": 1.0, "unit": "mcg/kg/min" },
-    "warning": "PEDIÁTRICO"
+    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 2, "diluent_volume_ml": 48, "final_concentration_mcg_ml": 1000 },
+    "default_dose": { "min": 0.25, "max": 10.0, "unit": "mcg/kg/min" },
+    "warning": "PROTEGER DA LUZ",
+    "alert_threshold": { "value": 2, "message": "RISCO DE INTOXICAÇÃO POR CIANETO acima de 2 mcg/kg/min" }
   }
 ];
