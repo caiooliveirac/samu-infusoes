@@ -15,7 +15,7 @@ git clone -q --no-local . "$TMP/src"
 git -C "$TMP/src" checkout -q "$SHA"
 ( cd "$TMP/src" && npm ci --silent && npx vitest run --silent && npm run build --silent )
 printf '%s' "$SHA" > "$TMP/src/dist/healthz"
-tar czf "$TMP/site.tgz" -C "$TMP/src/dist" .
+COPYFILE_DISABLE=1 tar --no-xattrs -czf "$TMP/site.tgz" -C "$TMP/src/dist" .
 
 scp -q "$TMP/site.tgz" magalu:/var/www/infusoes/releases/incoming.tgz
 scp -q deploy/activate.sh deploy/rollback.sh magalu:/var/www/infusoes/
