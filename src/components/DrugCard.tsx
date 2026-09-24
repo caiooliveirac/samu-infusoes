@@ -141,7 +141,9 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
              </div>
              <div>
                 <span className="block text-slate-500">Total na seringa</span>
-                <span className="font-mono text-slate-300">{formatNumber(totalDrugMg(drug))} mg</span>
+                <span className="font-mono text-slate-300">
+                  {totalDrugMg(drug) < 1 ? `${formatNumber(totalDrugMg(drug) * 1000)} mcg` : `${formatNumber(totalDrugMg(drug))} mg`}
+                </span>
              </div>
              <div className="col-span-2 pt-2 border-t border-slate-800/50 flex flex-col gap-1">
                 <div className="flex gap-2">
