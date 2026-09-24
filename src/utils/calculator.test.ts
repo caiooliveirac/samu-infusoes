@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { calculateRate, formatNumber, calculateConcentration } from './calculator';
+import { calculateRate, formatNumber, calculateConcentration, syringeDurationMin, formatDuration } from './calculator';
 import { Drug } from '../types';
 
 describe('calculator utils', () => {
@@ -149,10 +149,9 @@ describe('calculator utils', () => {
       expect(rate).toBe(0);
     });
 
-    it('should return 0 for unknown unit', () => {
+    it('should throw for unknown unit instead of hiding the result', () => {
       const drug = createMockDrug('unknown/unit', 100);
-      const rate = calculateRate(1, 70, drug);
-      expect(rate).toBe(0);
+      expect(() => calculateRate(1, 70, drug)).toThrow(/sem suporte/);
     });
   });
 
@@ -180,6 +179,20 @@ describe('calculator utils', () => {
       expect(formatNumber(100.2)).toBe('100');
       expect(formatNumber(150.7)).toBe('151');
       expect(formatNumber(123)).toBe('123');
+    });
+  });
+
+  describe('syringe duration', () => {
+    it('computes minutes until the syringe empties', () => {
+      const drug = createMockDrug('mcg/kg/min', 100); // 10 + 40 = 50 ml
+      expect(syringeDurationMin(drug, 150)).toBe(20);
+      expect(syringeDurationMin(drug, 0)).toBe(0);
+    });
+
+    it('formats durations', () => {
+      expect(formatDuration(21.4)).toBe('21 min');
+      expect(formatDuration(60)).toBe('1h');
+      expect(formatDuration(150)).toBe('2h30');
     });
   });
 });

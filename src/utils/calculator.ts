@@ -75,7 +75,28 @@ export const calculateRate = (
     return (dose * weight * 1000) / concentration;
   }
 
-  return 0;
+  throw new Error(`Unidade de dose sem suporte: ${unit}`);
+};
+
+export const isWeightBased = (unit: string): boolean => unit.includes('/kg');
+
+// Volume real da seringa (droga + diluente) — pode ser menor que syringe_ml.
+export const syringeVolume = (drug: Drug): number =>
+  drug.standard_dilution.drug_volume_ml + drug.standard_dilution.diluent_volume_ml;
+
+// Quanto de droga (mg) há na seringa preparada.
+export const totalDrugMg = (drug: Drug): number =>
+  drug.standard_dilution.drug_volume_ml * drug.presentation.mg_ml;
+
+// Minutos até a seringa esvaziar na vazão dada (ml/h).
+export const syringeDurationMin = (drug: Drug, rateMlH: number): number =>
+  rateMlH > 0 ? (syringeVolume(drug) / rateMlH) * 60 : 0;
+
+export const formatDuration = (min: number): string => {
+  if (min < 60) return `${Math.round(min)} min`;
+  const h = Math.floor(min / 60);
+  const m = Math.round(min % 60);
+  return m ? `${h}h${String(m).padStart(2, '0')}` : `${h}h`;
 };
 
 export const formatNumber = (num: number): string => {

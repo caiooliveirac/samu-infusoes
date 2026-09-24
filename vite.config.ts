@@ -4,7 +4,8 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/samu-infusoes/', // Caminho absoluto para o repositório no GitHub Pages
+  // Produção (infusoes.mnrs.com.br) serve na raiz; o GitHub Pages builda com BASE_PATH=/samu-infusoes/
+  base: process.env.BASE_PATH ?? '/',
   server: {
     host: true
   },
@@ -12,12 +13,14 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+      includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
         name: 'SAMU Infusões',
         short_name: 'Infusões',
         description: 'Calculadora de infusões de drogas vasoativas para SAMU 192',
         theme_color: '#0f172a', // Slate 900 (Medical Dark Mode base)
+        background_color: '#020617',
+        lang: 'pt-BR',
         icons: [
           {
             src: 'pwa-192x192.png',
@@ -28,6 +31,12 @@ export default defineConfig({
             src: 'pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png'
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable'
           }
         ]
       }

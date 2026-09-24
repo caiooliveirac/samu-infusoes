@@ -6,17 +6,20 @@ import { SearchAndWeight } from './components/SearchAndWeight';
 import { SyringeSelector } from './components/SyringeSelector';
 import { CategoryList } from './components/CategoryList';
 
+// Busca ignora acento e caixa: "magnesio" acha "MAGNÉSIO".
+const normalize = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
 function App() {
-  const [weight, setWeight] = useState<string>('70'); // Default 70kg
+  const [weight, setWeight] = useState<string>(''); // Sem peso padrão: nada de calcular para 70 kg sem querer
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [syringeSize, setSyringeSize] = useState<number>(20); // Default 20ml
 
   const numWeight = parseFloat(weight) || 0;
 
+  const term = normalize(searchTerm);
   const filteredDrugs = drugsData.filter(d => {
-    const matchesSearch = d.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          d.type.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = normalize(d.name).includes(term) || normalize(d.type).includes(term);
     const matchesCategory = selectedCategory === 'all' || d.type === selectedCategory;
     const matchesSyringe = d.standard_dilution.syringe_ml === syringeSize;
     

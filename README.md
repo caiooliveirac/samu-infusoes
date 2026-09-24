@@ -7,6 +7,8 @@
 
 > **Ferramenta de Apoio à Decisão Clínica** desenvolvida para profissionais do SAMU 192.
 > Otimizada para situações críticas, permitindo cálculos precisos de vazão de drogas vasoativas em segundos.
+>
+> **No ar:** https://infusoes.mnrs.com.br (espelho: GitHub Pages).
 
 ---
 
@@ -26,6 +28,9 @@ A interface foi desenhada com **UX de Alta Confiabilidade**: botões grandes, co
 - **Validação de Segurança**:
     - Alertas visuais (bordas laranjas) quando a dose sai dos parâmetros terapêuticos seguros.
     - Badges interativos de "Min" e "Max" que preenchem automaticamente doses seguras.
+    - Sem peso padrão: drogas por kg só calculam depois que o peso é informado.
+    - Duração da seringa na vazão escolhida (em destaque quando acaba em menos de 1 h) e total de droga na seringa.
+    - Tabela de diluições conferida por teste: concentração, ampolas e volume precisam fechar a conta.
 
 ### 📱 Experiência do Usuário (UX)
 - **Busca Híbrida Inteligente**: Encontre drogas pelo nome, classe (sedativo, inotrópico) ou apelido clínico ("Tridil", "Nipride").
@@ -56,7 +61,7 @@ O projeto foi construído utilizando as melhores práticas modernas de desenvolv
 ### Instalação
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/samu-infusoes.git
+git clone https://github.com/caiooliveirac/samu-infusoes.git
 
 # Entre na pasta
 cd samu-infusoes
@@ -82,6 +87,14 @@ npm test
 npm run build
 # Os arquivos otimizados serão gerados na pasta /dist
 ```
+
+### Publicar em produção (infusoes.mnrs.com.br)
+Só de commit publicado na `main`, árvore limpa:
+```bash
+deploy/publish.sh
+```
+Builda o commit num clone limpo, envia para o magalu e troca o symlink `/var/www/infusoes/current`
+(com conferência pelo `/healthz` e volta automática). Rollback: `ssh magalu bash /var/www/infusoes/rollback.sh`.
 
 ---
 

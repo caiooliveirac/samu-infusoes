@@ -31,8 +31,9 @@ export const SearchAndWeight = ({ searchTerm, onSearchChange, weight, onWeightCh
         inputMode="decimal"
         value={weight}
         onChange={(e) => onWeightChange(e.target.value)}
-        className="w-full bg-slate-900 border border-slate-800 rounded-lg pl-3 pr-8 py-3 text-sm font-mono text-cyan-400 font-bold text-center focus:border-cyan-500/50 outline-none transition-colors"
-        placeholder="KG"
+        aria-label="Peso do paciente em kg"
+        className={`w-full bg-slate-900 border rounded-lg pl-3 pr-8 py-3 text-sm font-mono text-cyan-400 font-bold text-center focus:border-cyan-500/50 outline-none transition-colors placeholder:text-amber-400/80 placeholder:font-medium ${weight ? 'border-slate-800' : 'border-amber-500/60'}`}
+        placeholder="Peso"
       />
       <span className="absolute right-3 top-3.5 text-xs font-medium text-slate-500 pointer-events-none">kg</span>
     </div>
