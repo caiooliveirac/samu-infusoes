@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Drug } from '../types';
-import { calculateRate, formatNumber } from '../utils/calculator';
+import { calculateRate, formatNumber, formatDuration, isWeightBased, syringeDurationMin, syringeVolume, totalDrugMg } from '../utils/calculator';
 import { Input } from './Input';
 
 interface DrugCardProps {
@@ -38,6 +38,9 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
   const isHighDose = !isNaN(numDose) && maxDose !== null && numDose > maxDose;
   const isAboveThreshold = !isNaN(numDose) && drug.alert_threshold && numDose > drug.alert_threshold.value;
   const isOutOfRange = isLowDose || isHighDose || isAboveThreshold;
+  const needsWeight = isWeightBased(drug.default_dose.unit) && !weight;
+  const volume = syringeVolume(drug);
+  const durationMin = syringeDurationMin(drug, rate);
 
   const formatDoseHint = (val: number) => {
     return Number(val.toFixed(2)).toString();
@@ -97,6 +100,10 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
           </div>
           <h3 className="font-bold text-slate-100">{drug.name}</h3>
           
+          {!expanded && needsWeight && (
+            <p className="mt-2 text-xs font-medium text-amber-400">Informe o peso para calcular</p>
+          )}
+
           {!expanded && rate > 0 && (
             <div className="mt-2 flex items-center gap-2">
                <span className="text-2xl font-mono font-bold text-cyan-400 leading-none">
@@ -123,12 +130,18 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
           {/* Dilution Info Block */}
           <div className="my-4 p-3 bg-slate-950/50 rounded-lg border border-slate-800/50 text-xs text-slate-400 grid grid-cols-2 gap-y-2">
              <div>
-                <span className="block text-slate-500">Seringa Total</span>
-                <span className="font-mono text-slate-300">{drug.standard_dilution.syringe_ml} mL</span>
+                <span className="block text-slate-500">Volume preparado</span>
+                <span className="font-mono text-slate-300">
+                  {volume} mL{volume !== drug.standard_dilution.syringe_ml && ` (seringa ${drug.standard_dilution.syringe_ml})`}
+                </span>
              </div>
              <div>
                 <span className="block text-slate-500">Concentração</span>
                 <span className="font-mono text-slate-300">{drug.standard_dilution.final_concentration_mcg_ml} mcg/mL</span>
+             </div>
+             <div>
+                <span className="block text-slate-500">Total na seringa</span>
+                <span className="font-mono text-slate-300">{formatNumber(totalDrugMg(drug))} mg</span>
              </div>
              <div className="col-span-2 pt-2 border-t border-slate-800/50 flex flex-col gap-1">
                 <div className="flex gap-2">
@@ -209,16 +222,27 @@ export const DrugCard: React.FC<DrugCardProps> = ({ drug, weight }) => {
             )}
           </div>
 
+          {needsWeight && (
+             <div className="mt-4 p-3 rounded-xl bg-amber-950/20 border border-amber-500/30 text-sm font-medium text-amber-300">
+                Informe o peso do paciente no topo para calcular a vazão.
+             </div>
+          )}
+
           {/* Result Block */}
           {rate > 0 && (
-             <div className="mt-4 p-4 rounded-xl bg-cyan-950/20 border border-cyan-500/30 flex items-center justify-between">
-                <span className="text-sm font-medium text-cyan-200/70 uppercase tracking-wider">Vazão Bomba</span>
-                <div className="text-right">
-                  <span className="text-4xl font-mono font-bold text-cyan-400 tracking-tight">
-                    {formatNumber(rate)}
-                  </span>
-                  <span className="ml-1.5 text-lg font-medium text-cyan-500/70">mL/h</span>
+             <div className="mt-4 p-4 rounded-xl bg-cyan-950/20 border border-cyan-500/30">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-cyan-200/70 uppercase tracking-wider">Vazão Bomba</span>
+                  <div className="text-right">
+                    <span className="text-4xl font-mono font-bold text-cyan-400 tracking-tight">
+                      {formatNumber(rate)}
+                    </span>
+                    <span className="ml-1.5 text-lg font-medium text-cyan-500/70">mL/h</span>
+                  </div>
                 </div>
+                <p className={`mt-2 pt-2 border-t border-cyan-500/20 text-xs ${durationMin < 60 ? 'text-amber-300 font-semibold' : 'text-cyan-200/60'}`}>
+                  Seringa de {volume} mL acaba em ~{formatDuration(durationMin)}
+                </p>
              </div>
           )}
         </div>

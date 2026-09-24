@@ -101,7 +101,8 @@ export const drugsData: Drug[] = [
     "type": "outros",
     "presentation": { "ampoule_ml": 10, "mg_ml": 500 },
     "standard_dilution": { "syringe_ml": 20, "num_ampoules": 0.8, "drug_volume_ml": 8, "diluent_volume_ml": 12, "final_concentration_mcg_ml": 200000 },
-    "default_dose": { "min": 2850, "max": 3810, "unit": "mcg/kg/min" }
+    "default_dose": { "min": 200, "max": 267, "unit": "mg/min" },
+    "warning": "4 g = SERINGA INTEIRA EM 15-20 MIN"
   },
   {
     "id": "magnesio_manut_20ml",
@@ -109,7 +110,7 @@ export const drugsData: Drug[] = [
     "type": "outros",
     "presentation": { "ampoule_ml": 10, "mg_ml": 500 },
     "standard_dilution": { "syringe_ml": 20, "num_ampoules": 2, "drug_volume_ml": 20, "diluent_volume_ml": 0, "final_concentration_mcg_ml": 500000 },
-    "default_dose": { "min": 238, "max": 476, "unit": "mcg/kg/min" },
+    "default_dose": { "min": 1, "max": 2, "unit": "g/h" },
     "warning": "USAR 2 AMPOLAS"
   },
   {
@@ -118,7 +119,7 @@ export const drugsData: Drug[] = [
     "type": "outros",
     "presentation": { "ampoule_ml": 10, "mg_ml": 500 },
     "standard_dilution": { "syringe_ml": 20, "num_ampoules": 0.4, "drug_volume_ml": 4, "diluent_volume_ml": 16, "final_concentration_mcg_ml": 100000 },
-    "default_dose": { "min": 142, "max": 238, "unit": "mcg/kg/min" }
+    "default_dose": { "min": 10, "max": 16.7, "unit": "mg/min" }
   },
   {
     "id": "midazolam_3ml_20ml",
@@ -218,7 +219,7 @@ export const drugsData: Drug[] = [
     "name": "AMIODARONA (Ataque)",
     "type": "antiarritmico",
     "presentation": { "ampoule_ml": 3, "mg_ml": 50 },
-    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 2, "drug_volume_ml": 6, "diluent_volume_ml": 44, "final_concentration_mcg_ml": 6000 },
+    "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 3, "diluent_volume_ml": 47, "final_concentration_mcg_ml": 3000 },
     "default_dose": { "min": 7.5, "max": 15.0, "unit": "mg/min" },
     "warning": "INFUNDIR LENTAMENTE (10-20 min)"
   },
@@ -264,7 +265,7 @@ export const drugsData: Drug[] = [
     "type": "vasopressor",
     "presentation": { "ampoule_ml": 10, "mg_ml": 5 },
     "standard_dilution": { "syringe_ml": 50, "num_ampoules": 2, "drug_volume_ml": 20, "diluent_volume_ml": 30, "final_concentration_mcg_ml": 2000 },
-    "default_dose": { "min": 2, "max": 20, "unit": "mcg/kg/min" },
+    "default_dose": { "min": 5, "max": 20, "unit": "mcg/kg/min" },
   },
 
   {
@@ -289,7 +290,7 @@ export const drugsData: Drug[] = [
     "type": "outros",
     "presentation": { "ampoule_ml": 10, "mg_ml": 500 },
     "standard_dilution": { "syringe_ml": 50, "num_ampoules": 0.4, "drug_volume_ml": 4, "diluent_volume_ml": 46, "final_concentration_mcg_ml": 40000 },
-    "default_dose": { "min": 142, "max": 381.0, "unit": "mcg/kg/min" }
+    "default_dose": { "min": 10, "max": 26.7, "unit": "mg/min" }
   },
   {
     "id": "midazolam_3ml_50ml",

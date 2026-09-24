@@ -27,8 +27,12 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
+      - name: Test
+        run: npx vitest run
       - name: Build
         run: npm run build
+        env:
+          BASE_PATH: /samu-infusoes/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
