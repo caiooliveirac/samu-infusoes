@@ -194,5 +194,14 @@ describe('calculator utils', () => {
       expect(formatDuration(60)).toBe('1h');
       expect(formatDuration(150)).toBe('2h30');
     });
+
+    it('rounds before splitting hours and minutes (never "1h60" or "60 min")', () => {
+      expect(formatDuration(0)).toBe('0 min');
+      expect(formatDuration(59.4)).toBe('59 min');
+      expect(formatDuration(59.5)).toBe('1h');
+      expect(formatDuration(119.4)).toBe('1h59');
+      expect(formatDuration(119.5)).toBe('2h');
+      expect(formatDuration(150.5)).toBe('2h31');
+    });
   });
 });

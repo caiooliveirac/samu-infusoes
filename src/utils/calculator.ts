@@ -92,10 +92,12 @@ export const totalDrugMg = (drug: Drug): number =>
 export const syringeDurationMin = (drug: Drug, rateMlH: number): number =>
   rateMlH > 0 ? (syringeVolume(drug) / rateMlH) * 60 : 0;
 
+// Arredonda ANTES de separar horas e minutos: 119,5 min vira 2h, nunca "1h60".
 export const formatDuration = (min: number): string => {
-  if (min < 60) return `${Math.round(min)} min`;
-  const h = Math.floor(min / 60);
-  const m = Math.round(min % 60);
+  const total = Math.round(min);
+  if (total < 60) return `${total} min`;
+  const h = Math.floor(total / 60);
+  const m = total % 60;
   return m ? `${h}h${String(m).padStart(2, '0')}` : `${h}h`;
 };
 
