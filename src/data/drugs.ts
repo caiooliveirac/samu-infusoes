@@ -101,17 +101,8 @@ export const drugsData: Drug[] = [
     "type": "outros",
     "presentation": { "ampoule_ml": 10, "mg_ml": 500 },
     "standard_dilution": { "syringe_ml": 20, "num_ampoules": 0.8, "drug_volume_ml": 8, "diluent_volume_ml": 12, "final_concentration_mcg_ml": 200000 },
-    "default_dose": { "min": 200, "max": 267, "unit": "mg/min" },
-    "warning": "4 g = SERINGA INTEIRA EM 15-20 MIN"
-  },
-  {
-    "id": "magnesio_manut_20ml",
-    "name": "MAGNÉSIO (Manut Eclampsia)",
-    "type": "outros",
-    "presentation": { "ampoule_ml": 10, "mg_ml": 500 },
-    "standard_dilution": { "syringe_ml": 20, "num_ampoules": 2, "drug_volume_ml": 20, "diluent_volume_ml": 0, "final_concentration_mcg_ml": 500000 },
-    "default_dose": { "min": 1, "max": 2, "unit": "g/h" },
-    "warning": "USAR 2 AMPOLAS"
+    "default_dose": { "min": 400, "max": 800, "unit": "mg/min" },
+    "warning": "Referência MS 2022: 4 g em 20 mL, infundidos em 5-10 min."
   },
   {
     "id": "magnesio_bronco_20ml",

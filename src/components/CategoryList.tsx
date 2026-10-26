@@ -7,6 +7,7 @@ export const CATEGORIES = [
   { id: 'inotropos', label: 'Inotrópicos' },
   { id: 'vasodilatador', label: 'Vasodilatadores' },
   { id: 'antiarritmico', label: 'Antiarritmicos' },
+  { id: 'outros', label: 'Outros' },
 ];
 
 interface Props {

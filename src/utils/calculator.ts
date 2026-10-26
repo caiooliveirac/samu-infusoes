@@ -1,4 +1,48 @@
-import { Drug, DrugPresentation, StandardDilution } from '../types';
+import { BagRegimen, Drug, DrugPresentation, StandardDilution } from '../types';
+
+export interface BagPreparation {
+  drug_volume_ml: number;
+  diluent_to_withdraw_ml: number;
+  remaining_diluent_ml: number;
+  stock_to_diluent_percent: number;
+  total_drug_mg: number;
+  ampoule_equivalent: number;
+  final_volume_ml: number;
+}
+
+export const calculateBagPreparation = (
+  regimen: BagRegimen,
+  bagVolumeMl: number
+): BagPreparation => {
+  if (
+    !Number.isFinite(bagVolumeMl) ||
+    !Number.isFinite(regimen.final_concentration_mcg_ml) ||
+    !Number.isFinite(regimen.stock_mg_ml) ||
+    !Number.isFinite(regimen.stock_ampoule_ml) ||
+    bagVolumeMl <= 0 ||
+    regimen.final_concentration_mcg_ml <= 0 ||
+    regimen.stock_mg_ml <= 0 ||
+    regimen.stock_ampoule_ml <= 0
+  ) {
+    throw new RangeError('Volume, concentração e apresentação devem ser maiores que zero.');
+  }
+
+  const totalDrugMg = (regimen.final_concentration_mcg_ml * bagVolumeMl) / 1000;
+  const drugVolumeMl = totalDrugMg / regimen.stock_mg_ml;
+  if (drugVolumeMl > bagVolumeMl) {
+    throw new RangeError('O volume do medicamento excede o volume final da bolsa.');
+  }
+
+  return {
+    drug_volume_ml: drugVolumeMl,
+    diluent_to_withdraw_ml: drugVolumeMl,
+    remaining_diluent_ml: bagVolumeMl - drugVolumeMl,
+    stock_to_diluent_percent: drugVolumeMl / (bagVolumeMl - drugVolumeMl) * 100,
+    total_drug_mg: totalDrugMg,
+    ampoule_equivalent: drugVolumeMl / regimen.stock_ampoule_ml,
+    final_volume_ml: bagVolumeMl,
+  };
+};
 
 export const calculateConcentration = (
   presentation: DrugPresentation,
@@ -25,9 +69,20 @@ export const calculateRate = (
   weight: number | null,
   drug: Drug
 ): number => {
-  const concentration = drug.standard_dilution.final_concentration_mcg_ml;
-  const unit = drug.default_dose.unit;
+  return calculateRateForConcentration(
+    dose,
+    weight,
+    drug.standard_dilution.final_concentration_mcg_ml,
+    drug.default_dose.unit
+  );
+};
 
+export const calculateRateForConcentration = (
+  dose: number,
+  weight: number | null,
+  concentration: number,
+  unit: string
+): number => {
   if (concentration === 0) return 0;
 
   // mcg/kg/min -> ml/h
@@ -56,6 +111,21 @@ export const calculateRate = (
     return (dose * 60000) / concentration;
   }
 
+  // mg/kg/h -> ml/h
+  if (unit === 'mg/kg/h') {
+    if (!weight) return 0;
+    return (dose * weight * 1000) / concentration;
+  }
+
+  // A fixed amount infused over a stated duration -> ml/h.
+  if (unit === 'mg/10 min') {
+    return (dose * 6000) / concentration;
+  }
+
+  if (unit === 'mg/20 min') {
+    return (dose * 3000) / concentration;
+  }
+
   // g/h -> ml/h
   // (Dose * 1,000,000) / Conc
   if (unit === 'g/h') {
@@ -71,6 +141,11 @@ export const calculateRate = (
   // mg/kg -> ml (Volume based on weight)
   // (Dose * Weight * 1000) / Conc
   if (unit === 'mg/kg') {
+    if (!weight) return 0;
+    return (dose * weight * 1000) / concentration;
+  }
+
+  if (unit === 'mg/kg (carga)') {
     if (!weight) return 0;
     return (dose * weight * 1000) / concentration;
   }

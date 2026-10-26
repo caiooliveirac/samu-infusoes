@@ -35,6 +35,9 @@ A interface foi desenhada com **UX de Alta Confiabilidade**: botões grandes, co
 ### 📱 Experiência do Usuário (UX)
 - **Busca Híbrida Inteligente**: Encontre drogas pelo nome, classe (sedativo, inotrópico) ou apelido clínico ("Tridil", "Nipride").
 - **Seletor de Seringas**: Alterne rapidamente entre diluições padrão de **20mL** e **50mL** com recálculo automático.
+- **Modo Frascos/Bolsas**: Cálculos separados para volumes finais de **100mL, 250mL, 500mL e 1.000mL**. A tela informa volume de estoque, volume de diluente a retirar, diluente restante e volume final; a dose é digitada pelo profissional e não vem pré-preenchida.
+- **Preparo de magnésio**: Manutenção em bolsa de **250mL** baseada no Manual de Gestação de Alto Risco do Ministério da Saúde (2022). O ataque de 4g/20mL permanece em seringas; não há manutenção em bolsa de 100mL, nem preparação em bolsas acima de 250mL.
+- **Apresentações específicas**: Atropina permanece somente na seringa de 20mL; propofol permanece sem diluição nas seringas da referência; fentanila em bolsa mostra os volumes calculados para cada apresentação; noradrenalina em bolsa considera 4mg por ampola de 4mL a 1mg/mL.
 - **Peso Global**: Defina o peso do paciente uma vez e todas as doses são ajustadas instantaneamente.
 - **Instruções de Preparo Claras**: Exibe exatamente como montar a solução ("X mL de Droga + Y mL de Diluente"), evitando erros matemáticos.
 
@@ -106,13 +109,12 @@ Cada alteração no código passa por validação rigorosa:
 
 ---
 
-## ⚠️ Aviso Legal
+## ⚠️ Aviso de segurança
 **ESTE APLICATIVO É SUPORTE À DECISÃO.**
-Ele não substitui o julgamento clínico profissional. Sempre verifique a consistência dos resultados antes de administrar a medicação. O autor não se responsabiliza por uso indevido.
+O modo Frascos/Bolsas calcula quantidades a partir da concentração selecionada e da dose prescrita pelo profissional; não escolhe indicação nem prescreve dose. Confirme apresentação, diluente, compatibilidade, volume final e protocolo institucional antes do preparo e da administração. O modo de seringas mantém os parâmetros já cadastrados e também requer conferência profissional. A referência de magnésio é o Manual de Gestação de Alto Risco do Ministério da Saúde (2022); a opção em bolsa é limitada a 250mL.
 
 ---
 
 <p align="center">
   Feito com ❤️ para quem salva vidas.
 </p>
-

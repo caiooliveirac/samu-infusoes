@@ -30,3 +30,18 @@ export interface Drug {
     message: string;
   };
 }
+
+export interface BagRegimen {
+  id: string;
+  name: string;
+  type: Drug['type'];
+  stock_ampoule_ml: number;
+  stock_mg_ml: number;
+  final_concentration_mcg_ml: number;
+  dose_unit: string;
+  volumes_ml: number[];
+  weight_basis?: 'patient' | 'ideal';
+  diluent?: string;
+  warning?: string;
+  source: string;
+}

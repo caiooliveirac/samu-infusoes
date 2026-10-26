@@ -5,12 +5,23 @@ interface Props {
   onSearchChange: (value: string) => void;
   weight: string;
   onWeightChange: (value: string) => void;
+  idealWeight?: string;
+  onIdealWeightChange?: (value: string) => void;
+  showIdealWeight?: boolean;
 }
 
-export const SearchAndWeight = ({ searchTerm, onSearchChange, weight, onWeightChange }: Props) => (
-  <div className="grid grid-cols-[1.2fr_0.8fr] gap-4">
+export const SearchAndWeight = ({
+  searchTerm,
+  onSearchChange,
+  weight,
+  onWeightChange,
+  idealWeight = '',
+  onIdealWeightChange,
+  showIdealWeight = false,
+}: Props) => (
+  <div className={showIdealWeight ? 'grid grid-cols-2 gap-3' : 'grid grid-cols-[1.2fr_0.8fr] gap-4'}>
     {/* Search */}
-    <div className="relative">
+    <div className={`relative ${showIdealWeight ? 'col-span-2' : ''}`}>
       <input 
         type="text" 
         placeholder="Busca..." 
@@ -37,5 +48,19 @@ export const SearchAndWeight = ({ searchTerm, onSearchChange, weight, onWeightCh
       />
       <span className="absolute right-3 top-3.5 text-xs font-medium text-slate-500 pointer-events-none">kg</span>
     </div>
+    {showIdealWeight && onIdealWeightChange && (
+      <div className="relative">
+        <input
+          type="number"
+          inputMode="decimal"
+          value={idealWeight}
+          onChange={(e) => onIdealWeightChange(e.target.value)}
+          aria-label="Peso ideal em kg"
+          className={`w-full bg-slate-900 border rounded-lg pl-3 pr-8 py-3 text-sm font-mono text-cyan-400 font-bold text-center focus:border-cyan-500/50 outline-none transition-colors placeholder:text-slate-500 ${idealWeight ? 'border-slate-800' : 'border-slate-800'}`}
+          placeholder="Peso ideal"
+        />
+        <span className="absolute right-3 top-3.5 text-xs font-medium text-slate-500 pointer-events-none">kg</span>
+      </div>
+    )}
   </div>
 );
