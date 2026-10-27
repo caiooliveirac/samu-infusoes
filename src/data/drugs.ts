@@ -7,7 +7,7 @@ export const drugsData: Drug[] = [
     "type": "vasopressor",
     "presentation": { "ampoule_ml": 1.0, "mg_ml": 1.0 },
     "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 1, "diluent_volume_ml": 19, "final_concentration_mcg_ml": 50 },
-    "default_dose": { "min": 0.0476, "max": 1.0, "unit": "mcg/kg/min" }
+    "default_dose": { "min": 0.05, "max": 2.0, "unit": "mcg/kg/min" }
   },
   {
     "id": "adrenalina_clor_50ml_20",
@@ -15,7 +15,7 @@ export const drugsData: Drug[] = [
     "type": "vasopressor",
     "presentation": { "ampoule_ml": 1.0, "mg_ml": 1.0 },
     "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 1, "diluent_volume_ml": 49, "final_concentration_mcg_ml": 20 },
-    "default_dose": { "min": 0.0476, "max": 1.0, "unit": "mcg/kg/min" },
+    "default_dose": { "min": 0.05, "max": 2.0, "unit": "mcg/kg/min" },
   },
   {
     "id": "amiodarona_ataque_20ml",
@@ -59,7 +59,8 @@ export const drugsData: Drug[] = [
     "type": "sedativo",
     "presentation": { "ampoule_ml": 10, "mg_ml": 50 },
     "standard_dilution": { "syringe_ml": 20, "num_ampoules": 0.1, "drug_volume_ml": 1, "diluent_volume_ml": 19, "final_concentration_mcg_ml": 2500 },
-    "default_dose": { "min": 8, "max": 30, "unit": "mcg/kg/min" }
+    "default_dose": { "min": 0.48, "max": 1.8, "unit": "mg/kg/h" },
+    "warning": "Faixa de sedação em UTI (estudos observacionais), sem respaldo em bula. Bula (racêmica e escetamina): manutenção anestésica 0,1–0,5 mg/min. Escetamina (Ketamin) é 2× mais potente que a racêmica: confira a apresentação."
   },
   {
     "id": "dobutamina_std_20ml",
@@ -119,7 +120,7 @@ export const drugsData: Drug[] = [
     "type": "sedativo",
     "presentation": { "ampoule_ml": 3, "mg_ml": 5 },
     "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 3, "diluent_volume_ml": 17, "final_concentration_mcg_ml": 750 },
-    "default_dose": { "min": 1.8, "max": 6.6, "unit": "mcg/kg/min" }
+    "default_dose": { "min": 0.02, "max": 0.2, "unit": "mg/kg/h" }
   },
   {
     "id": "midazolam_10ml_20ml",
@@ -127,7 +128,7 @@ export const drugsData: Drug[] = [
     "type": "sedativo",
     "presentation": { "ampoule_ml": 10, "mg_ml": 5 },
     "standard_dilution": { "syringe_ml": 20, "num_ampoules": 1, "drug_volume_ml": 10, "diluent_volume_ml": 10, "final_concentration_mcg_ml": 2500 },
-    "default_dose": { "min": 1.8, "max": 6.6, "unit": "mcg/kg/min" }
+    "default_dose": { "min": 0.02, "max": 0.2, "unit": "mg/kg/h" }
   },
   {
     "id": "nitroglicerina_400_20ml",
@@ -161,8 +162,8 @@ export const drugsData: Drug[] = [
     "type": "vasodilatador",
     "presentation": { "ampoule_ml": 2, "mg_ml": 25 },
     "standard_dilution": { "syringe_ml": 20, "num_ampoules": 0.5, "drug_volume_ml": 1, "diluent_volume_ml": 19, "final_concentration_mcg_ml": 1250 },
-    "default_dose": { "min": 0.25, "max": 10.0, "unit": "mcg/kg/min" },
-    "warning": "PROTEGER DA LUZ",
+    "default_dose": { "min": 0.3, "max": 8.0, "unit": "mcg/kg/min" },
+    "warning": "PROTEGER DA LUZ. Diluir só em SG 5%. Máx. 8 mcg/kg/min (Nitroprus); 10 só por até 10 min",
     "alert_threshold": { "value": 2, "message": "RISCO DE INTOXICAÇÃO POR CIANETO acima de 2 mcg/kg/min" }
   },
   {
@@ -239,7 +240,8 @@ export const drugsData: Drug[] = [
     "type": "sedativo",
     "presentation": { "ampoule_ml": 10, "mg_ml": 50 },
     "standard_dilution": { "syringe_ml": 50, "num_ampoules": 0.2, "drug_volume_ml": 2, "diluent_volume_ml": 48, "final_concentration_mcg_ml": 2000 },
-    "default_dose": { "min": 8, "max": 30, "unit": "mcg/kg/min" }
+    "default_dose": { "min": 0.48, "max": 1.8, "unit": "mg/kg/h" },
+    "warning": "Faixa de sedação em UTI (estudos observacionais), sem respaldo em bula. Bula (racêmica e escetamina): manutenção anestésica 0,1–0,5 mg/min. Escetamina (Ketamin) é 2× mais potente que a racêmica: confira a apresentação."
   },
   {
     "id": "dobutamina_ini_50ml",
@@ -291,7 +293,7 @@ export const drugsData: Drug[] = [
     "type": "sedativo",
     "presentation": { "ampoule_ml": 3, "mg_ml": 5 },
     "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 3, "diluent_volume_ml": 47, "final_concentration_mcg_ml": 300 },
-    "default_dose": { "min": 0.5, "max": 5.7, "unit": "mcg/kg/min" }
+    "default_dose": { "min": 0.02, "max": 0.2, "unit": "mg/kg/h" }
   },
   {
     "id": "midazolam_10ml_50ml",
@@ -299,7 +301,7 @@ export const drugsData: Drug[] = [
     "type": "sedativo",
     "presentation": { "ampoule_ml": 10, "mg_ml": 5 },
     "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 10, "diluent_volume_ml": 40, "final_concentration_mcg_ml": 1000 },
-    "default_dose": { "min": 0.5, "max": 5.7, "unit": "mcg/kg/min" }
+    "default_dose": { "min": 0.02, "max": 0.2, "unit": "mg/kg/h" }
   },
   {
     "id": "midazolam_mal_convulsivo_3ml_50ml",
@@ -341,8 +343,8 @@ export const drugsData: Drug[] = [
     "type": "vasodilatador",
     "presentation": { "ampoule_ml": 2, "mg_ml": 25 },
     "standard_dilution": { "syringe_ml": 50, "num_ampoules": 1, "drug_volume_ml": 2, "diluent_volume_ml": 48, "final_concentration_mcg_ml": 1000 },
-    "default_dose": { "min": 0.25, "max": 10.0, "unit": "mcg/kg/min" },
-    "warning": "PROTEGER DA LUZ",
+    "default_dose": { "min": 0.3, "max": 8.0, "unit": "mcg/kg/min" },
+    "warning": "PROTEGER DA LUZ. Diluir só em SG 5%. Máx. 8 mcg/kg/min (Nitroprus); 10 só por até 10 min",
     "alert_threshold": { "value": 2, "message": "RISCO DE INTOXICAÇÃO POR CIANETO acima de 2 mcg/kg/min" }
   }
 ];

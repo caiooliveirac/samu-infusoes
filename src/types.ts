@@ -47,6 +47,7 @@ export interface BagRegimen {
   volumes_ml: number[];
   weight_basis?: 'patient' | 'ideal';
   diluent?: string;
+  max_rate_mg_min?: number;
   warning?: string;
   source: string;
 }

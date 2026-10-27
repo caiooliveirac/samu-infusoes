@@ -51,6 +51,7 @@ export const BagDrugCard = ({ regimen, volumeMl, weight, idealWeight }: BagDrugC
     )
     : null;
   const isLoadingDose = regimen.dose_unit.includes('(carga)');
+  const doseMg = result !== null ? (result * regimen.final_concentration_mcg_ml) / 1000 : null;
 
   useEffect(() => {
     if (!doseTouched) setDose(minDose?.toString() ?? '');
@@ -221,7 +222,21 @@ export const BagDrugCard = ({ regimen, volumeMl, weight, idealWeight }: BagDrugC
                 <p className="mt-1 font-mono text-3xl font-bold text-cyan-300">
                   {formatPrecise(result)} {isLoadingDose ? 'mL/dose' : 'mL/h'}
                 </p>
+                {isLoadingDose && regimen.max_rate_mg_min && (
+                  <p className="mt-2 text-xs text-cyan-100/80">
+                    {formatMass(doseMg!)} · infundir em no mínimo{' '}
+                    {Math.ceil(doseMg! / regimen.max_rate_mg_min)} min (vazão máx.{' '}
+                    {formatPrecise((regimen.max_rate_mg_min * 60000) / regimen.final_concentration_mcg_ml)} mL/h,{' '}
+                    {regimen.max_rate_mg_min} mg/min)
+                  </p>
+                )}
               </div>
+            )}
+            {result !== null && isLoadingDose && result > volumeMl && (
+              <p className="text-xs font-medium text-orange-300">
+                A dose ({formatPrecise(result)} mL) passa do conteúdo da bolsa de {volumeMl} mL
+                ({formatMass(preparation.total_drug_mg)}). Prepare mais de uma bolsa.
+              </p>
             )}
           </div>
 

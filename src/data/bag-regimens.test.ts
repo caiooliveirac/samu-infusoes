@@ -120,6 +120,34 @@ describe('specific preparations and dose units', () => {
     }
   });
 
+  it('follows the reference table decided on 2026-10-27', () => {
+    const byId = (id: string) => bagRegimens.find((regimen) => regimen.id === id)!;
+
+    for (const id of ['midazolam-3ml-500-mcg-ml', 'midazolam-10ml-500-mcg-ml']) {
+      expect(byId(id).dose_range).toEqual({ min: 0.02, max: 0.2, unit: 'mg/kg/h' });
+    }
+    expect(byId('cetamina-manutencao')).toMatchObject({
+      dose_unit: 'mg/kg/h',
+      dose_range: { min: 0.48, max: 1.8, unit: 'mg/kg/h' },
+    });
+    expect(byId('adrenalina-16-mcg-kg-min').dose_range).toMatchObject({ min: 0.05, max: 2 });
+    expect(byId('nitroprussiato-50-mcg-ml').dose_range).toMatchObject({ min: 0.3, max: 8 });
+
+    const phenytoin = byId('fenitoina-5000-mcg-ml');
+    expect(phenytoin).toMatchObject({
+      volumes_ml: [100, 250],
+      dose_range: { min: 10, max: 20, unit: 'mg/kg (carga)' },
+      max_rate_mg_min: 50,
+    });
+    expect(phenytoin.diluent).toMatch(/^SF 0,9%/);
+    // 20 mg/kg em 70 kg = 1.400 mg = 280 mL a 5 mg/mL; teto 50 mg/min = 600 mL/h.
+    expect(calculateRateForConcentration(20, 70, 5000, phenytoin.dose_unit)).toBe(280);
+
+    for (const regimen of bagRegimens.filter((item) => /^(amiodarona|nitroprussiato)-/.test(item.id))) {
+      expect(regimen.diluent, regimen.id).toBe('SG 5% (exclusivo)');
+    }
+  });
+
   it('does not offer atropine or propofol as bag regimens', () => {
     expect(bagRegimens.some((regimen) => /atropina|propofol/i.test(regimen.name))).toBe(false);
     expect(drugsData.find((drug) => drug.id === 'atropina_20ml')?.standard_dilution.syringe_ml).toBe(20);
