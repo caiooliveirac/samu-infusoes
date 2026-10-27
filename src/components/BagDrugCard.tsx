@@ -1,6 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BagRegimen } from '../types';
-import { calculateBagPreparation, calculateRateForConcentration, isWeightBased } from '../utils/calculator';
+import {
+  calculateBagPreparation,
+  calculateRateForConcentration,
+  convertDoseUnit,
+  isWeightBased,
+} from '../utils/calculator';
 import { Input } from './Input';
 
 interface BagDrugCardProps {
@@ -19,12 +24,24 @@ const formatMass = (mg: number): string =>
 export const BagDrugCard = ({ regimen, volumeMl, weight, idealWeight }: BagDrugCardProps) => {
   const [expanded, setExpanded] = useState(false);
   const [dose, setDose] = useState('');
+  const [doseTouched, setDoseTouched] = useState(false);
   const preparation = calculateBagPreparation(regimen, volumeMl);
   const usesWeight = isWeightBased(regimen.dose_unit);
   const calculationWeight = regimen.weight_basis === 'ideal' ? idealWeight : weight;
+  const minDose = regimen.dose_range
+    ? convertDoseUnit(regimen.dose_range.min, regimen.dose_range.unit, regimen.dose_unit, calculationWeight)
+    : null;
+  const maxDose = regimen.dose_range
+    ? convertDoseUnit(regimen.dose_range.max, regimen.dose_range.unit, regimen.dose_unit, calculationWeight)
+    : null;
+  const needsRangeWeight = regimen.dose_range !== undefined
+    && isWeightBased(regimen.dose_range.unit)
+    && !calculationWeight;
   const needsWeight = usesWeight && !calculationWeight;
   const numericDose = Number(dose);
   const hasDose = dose !== '' && Number.isFinite(numericDose) && numericDose > 0;
+  const isLowDose = hasDose && minDose !== null && numericDose < minDose;
+  const isHighDose = hasDose && maxDose !== null && numericDose > maxDose;
   const result = hasDose && !needsWeight
     ? calculateRateForConcentration(
       numericDose,
@@ -34,6 +51,10 @@ export const BagDrugCard = ({ regimen, volumeMl, weight, idealWeight }: BagDrugC
     )
     : null;
   const isLoadingDose = regimen.dose_unit.includes('(carga)');
+
+  useEffect(() => {
+    if (!doseTouched) setDose(minDose?.toString() ?? '');
+  }, [doseTouched, minDose]);
 
   return (
     <article className={`overflow-hidden rounded-xl border bg-slate-900 transition-colors ${
@@ -50,6 +71,11 @@ export const BagDrugCard = ({ regimen, volumeMl, weight, idealWeight }: BagDrugC
           <span className="mt-1 block text-xs text-slate-400">
             {formatPrecise(regimen.final_concentration_mcg_ml)} mcg/mL · bolsa {volumeMl} mL
           </span>
+          {minDose !== null && maxDose !== null && (
+            <span className="mt-1 block text-[11px] text-slate-500">
+              Faixa de referência: {formatPrecise(minDose)}–{formatPrecise(maxDose)} {regimen.dose_unit}
+            </span>
+          )}
           {result !== null && !isLoadingDose && (
             <span className="mt-2 block font-mono text-2xl font-bold text-cyan-400">
               {formatPrecise(result)} <span className="text-sm font-medium">mL/h</span>
@@ -118,6 +144,36 @@ export const BagDrugCard = ({ regimen, volumeMl, weight, idealWeight }: BagDrugC
           )}
 
           <div className="space-y-2">
+            {minDose !== null && maxDose !== null && (
+              <div className="flex items-end justify-between px-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDose(minDose.toString());
+                    setDoseTouched(true);
+                  }}
+                  className="text-left"
+                >
+                  <span className="block text-[10px] text-slate-500">Mín</span>
+                  <span className="rounded-full border border-slate-700 bg-slate-800 px-2 py-0.5 text-[10px] font-medium text-slate-300">
+                    {formatPrecise(minDose)} {regimen.dose_unit}
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDose(maxDose.toString());
+                    setDoseTouched(true);
+                  }}
+                  className="text-right"
+                >
+                  <span className="block text-[10px] text-slate-500">Máx</span>
+                  <span className="rounded-full border border-slate-700 bg-slate-800 px-2 py-0.5 text-[10px] font-medium text-slate-300">
+                    {formatPrecise(maxDose)} {regimen.dose_unit}
+                  </span>
+                </button>
+              </div>
+            )}
             <Input
               label="Dose prescrita"
               type="number"
@@ -125,10 +181,18 @@ export const BagDrugCard = ({ regimen, volumeMl, weight, idealWeight }: BagDrugC
               step="any"
               min="0"
               value={dose}
-              onChange={(event) => setDose(event.target.value)}
+              onChange={(event) => {
+                setDose(event.target.value);
+                setDoseTouched(true);
+              }}
               suffix={regimen.dose_unit}
               aria-label={`Dose prescrita em ${regimen.dose_unit}`}
             />
+            {needsRangeWeight && (
+              <p className="text-xs font-medium text-amber-300">
+                Informe o peso para calcular a faixa de referência e a vazão basal.
+              </p>
+            )}
             {needsWeight && (
               <p className="text-xs font-medium text-amber-300">
                 {regimen.weight_basis === 'ideal'
@@ -138,6 +202,16 @@ export const BagDrugCard = ({ regimen, volumeMl, weight, idealWeight }: BagDrugC
             )}
             {dose !== '' && (!Number.isFinite(numericDose) || numericDose <= 0) && (
               <p className="text-xs font-medium text-red-300">Informe uma dose numérica maior que zero.</p>
+            )}
+            {isLowDose && minDose !== null && (
+              <p className="text-xs font-medium text-orange-300">
+                Dose abaixo da referência mínima ({formatPrecise(minDose)} {regimen.dose_unit}).
+              </p>
+            )}
+            {isHighDose && maxDose !== null && (
+              <p className="text-xs font-medium text-orange-300">
+                Dose acima da referência máxima ({formatPrecise(maxDose)} {regimen.dose_unit}).
+              </p>
             )}
             {result !== null && (
               <div className="rounded-lg border border-cyan-500/30 bg-cyan-950/20 p-3">

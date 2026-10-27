@@ -39,6 +39,11 @@ export interface BagRegimen {
   stock_mg_ml: number;
   final_concentration_mcg_ml: number;
   dose_unit: string;
+  dose_range?: {
+    min: number;
+    max: number;
+    unit: string;
+  };
   volumes_ml: number[];
   weight_basis?: 'patient' | 'ideal';
   diluent?: string;

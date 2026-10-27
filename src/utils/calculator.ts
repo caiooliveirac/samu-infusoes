@@ -153,6 +153,50 @@ export const calculateRateForConcentration = (
   throw new Error(`Unidade de dose sem suporte: ${unit}`);
 };
 
+export const convertDoseUnit = (
+  dose: number,
+  fromUnit: string,
+  toUnit: string,
+  weight: number | null
+): number | null => {
+  if (!Number.isFinite(dose)) return null;
+  if (fromUnit === toUnit) return dose;
+
+  const needsWeight = fromUnit.includes('/kg') || toUnit.includes('/kg');
+  if (needsWeight && (!weight || !Number.isFinite(weight) || weight <= 0)) return null;
+
+  const toMgPerMinute = (value: number, unit: string): number | null => {
+    switch (unit) {
+      case 'mcg/kg/min': return (value * weight!) / 1000;
+      case 'mcg/kg/h': return (value * weight!) / 60000;
+      case 'mg/kg/h': return (value * weight!) / 60;
+      case 'mcg/min': return value / 1000;
+      case 'mg/min': return value;
+      case 'mg/10 min': return value / 10;
+      case 'mg/20 min': return value / 20;
+      case 'g/h': return (value * 1000) / 60;
+      default: return null;
+    }
+  };
+
+  const fromCanonical = (value: number, unit: string): number | null => {
+    switch (unit) {
+      case 'mcg/kg/min': return (value * 1000) / weight!;
+      case 'mcg/kg/h': return (value * 60000) / weight!;
+      case 'mg/kg/h': return (value * 60) / weight!;
+      case 'mcg/min': return value * 1000;
+      case 'mg/min': return value;
+      case 'mg/10 min': return value * 10;
+      case 'mg/20 min': return value * 20;
+      case 'g/h': return (value * 60) / 1000;
+      default: return null;
+    }
+  };
+
+  const canonicalDose = toMgPerMinute(dose, fromUnit);
+  return canonicalDose === null ? null : fromCanonical(canonicalDose, toUnit);
+};
+
 export const isWeightBased = (unit: string): boolean => unit.includes('/kg');
 
 // Volume real da seringa (droga + diluente) — pode ser menor que syringe_ml.

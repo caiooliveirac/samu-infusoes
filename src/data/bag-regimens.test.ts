@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { bagRegimens } from './bag-regimens';
 import { drugsData } from './drugs';
-import { calculateBagPreparation, calculateRate, calculateRateForConcentration } from '../utils/calculator';
+import {
+  calculateBagPreparation,
+  calculateRate,
+  calculateRateForConcentration,
+  convertDoseUnit,
+} from '../utils/calculator';
 
 describe.each(bagRegimens)('$id', (regimen) => {
   it('calculates the declared final concentration for every supported bag size', () => {
@@ -32,6 +37,24 @@ describe.each(bagRegimens)('$id', (regimen) => {
 });
 
 describe('specific preparations and dose units', () => {
+  it('provides a reference range for each continuous bag infusion with an existing syringe reference', () => {
+    const continuousRegimens = bagRegimens.filter((regimen) => regimen.id !== 'fenitoina-5000-mcg-ml');
+
+    for (const regimen of continuousRegimens) {
+      expect(regimen.dose_range, regimen.id).toBeDefined();
+      const range = regimen.dose_range!;
+      expect(convertDoseUnit(range.min, range.unit, regimen.dose_unit, 70)).toBeGreaterThan(0);
+      expect(convertDoseUnit(range.max, range.unit, regimen.dose_unit, 70)).toBeGreaterThan(0);
+    }
+  });
+
+  it('converts existing syringe reference ranges to each bag regimen unit', () => {
+    expect(convertDoseUnit(7.5, 'mg/min', 'mg/10 min', null)).toBe(75);
+    expect(convertDoseUnit(1.8, 'mcg/kg/min', 'mg/kg/h', 70)).toBeCloseTo(0.108);
+    expect(convertDoseUnit(0.01, 'mcg/kg/min', 'mcg/min', 70)).toBeCloseTo(0.7);
+    expect(convertDoseUnit(0.0476, 'mcg/kg/min', 'mcg/min', null)).toBeNull();
+  });
+
   it('uses one, two, or four 4 mL norepinephrine ampoules for 16, 32, or 64 mcg/mL in 250 mL', () => {
     const concentrations = [16, 32, 64];
     const ampoules = [1, 2, 4];
