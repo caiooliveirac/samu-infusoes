@@ -110,7 +110,8 @@ export const drugsData: Drug[] = [
     "type": "outros",
     "presentation": { "ampoule_ml": 10, "mg_ml": 500 },
     "standard_dilution": { "syringe_ml": 20, "num_ampoules": 0.4, "drug_volume_ml": 4, "diluent_volume_ml": 16, "final_concentration_mcg_ml": 100000 },
-    "default_dose": { "min": 10, "max": 16.7, "unit": "mg/min" }
+    "default_dose": { "min": 60, "max": 100, "unit": "mg/min" },
+    "warning": "Dose única: 1,2–2 g em 20 min (60–100 mg/min)."
   },
   {
     "id": "midazolam_3ml_20ml",
@@ -281,7 +282,8 @@ export const drugsData: Drug[] = [
     "type": "outros",
     "presentation": { "ampoule_ml": 10, "mg_ml": 500 },
     "standard_dilution": { "syringe_ml": 50, "num_ampoules": 0.4, "drug_volume_ml": 4, "diluent_volume_ml": 46, "final_concentration_mcg_ml": 40000 },
-    "default_dose": { "min": 10, "max": 26.7, "unit": "mg/min" }
+    "default_dose": { "min": 60, "max": 100, "unit": "mg/min" },
+    "warning": "Dose única: 1,2–2 g em 20 min (60–100 mg/min)."
   },
   {
     "id": "midazolam_3ml_50ml",

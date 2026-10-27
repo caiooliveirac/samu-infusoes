@@ -100,6 +100,26 @@ describe('specific preparations and dose units', () => {
     expect(magnesium && calculateRate(800, null, magnesium)).toBe(240);
   });
 
+  it('uses the V27 sheet ranges where the syringe ranges do not apply', () => {
+    const byId = (id: string) => bagRegimens.find((regimen) => regimen.id === id)!;
+
+    const bronco = byId('magnesio-broncoespasmo');
+    expect(bronco.dose_range).toEqual({ min: 1200, max: 2000, unit: 'mg/20 min' });
+    expect(calculateRateForConcentration(2000, null, bronco.final_concentration_mcg_ml, bronco.dose_unit)).toBe(300);
+
+    const bradycardia = byId('adrenalina-16-mcg-min');
+    expect(convertDoseUnit(bradycardia.dose_range!.max, bradycardia.dose_range!.unit, bradycardia.dose_unit, null)).toBe(10);
+
+    const loading = byId('amiodarona-ataque');
+    expect(calculateRateForConcentration(loading.dose_range!.min, null, 1500, loading.dose_unit)).toBe(600);
+    expect(byId('amiodarona-manutencao-6h').dose_range).toMatchObject({ min: 1, max: 1 });
+    expect(byId('amiodarona-manutencao-18h').dose_range).toMatchObject({ min: 0.5, max: 0.5 });
+
+    for (const id of ['magnesio_bronco_20ml', 'magnesio_bronco_50ml']) {
+      expect(drugsData.find((drug) => drug.id === id)?.default_dose).toMatchObject({ min: 60, max: 100, unit: 'mg/min' });
+    }
+  });
+
   it('does not offer atropine or propofol as bag regimens', () => {
     expect(bagRegimens.some((regimen) => /atropina|propofol/i.test(regimen.name))).toBe(false);
     expect(drugsData.find((drug) => drug.id === 'atropina_20ml')?.standard_dilution.syringe_ml).toBe(20);
